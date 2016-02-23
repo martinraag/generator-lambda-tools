@@ -1,0 +1,23 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "<%= service.description %>",
+    "Parameters": {
+        "aaProjectName": {
+            "Type": "String",
+            "Default": "<%= service.name %>",
+            "AllowedValues": [
+                "<%= service.name %>"
+            ]
+        },
+        "aaStage": {
+            "Type": "String",
+            "Default": "dev"
+        },
+        "aaDefaultDynamoRWThroughput": {
+            "Type": "String",
+            "Default": "1"
+        }
+    },
+    "Resources": {},
+    "Outputs": {}
+}

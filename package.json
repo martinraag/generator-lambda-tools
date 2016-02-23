@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Yeoman generators for lambda-tools",
   "files": [
+    "generators/app"
   ],
   "scripts": {},
   "keywords": [
