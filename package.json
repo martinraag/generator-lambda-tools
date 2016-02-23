@@ -5,7 +5,9 @@
   "files": [
     "generators/app"
   ],
-  "scripts": {},
+  "scripts": {
+    "test": "mocha"
+  },
   "keywords": [
     "yeoman-generator"
   ],
@@ -17,5 +19,9 @@
   "dependencies": {
     "mkdirp": "^0.5.1",
     "yeoman-generator": "^0.22.5"
+  },
+  "devDependencies": {
+    "is-there": "^4.3.1",
+    "mocha": "^2.4.5"
   }
 }
