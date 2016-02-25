@@ -87,7 +87,7 @@ module.exports = generators.Base.extend({
             const prompts = parameters.map(function(param) {
                 return {
                     type: 'confirm',
-                    name: param,
+                    name: 'required.' + param,
                     message: 'Is path parameter \'' + param + '\' required?',
                     default: true
                 };
@@ -96,14 +96,14 @@ module.exports = generators.Base.extend({
             const done = this.async();
 
             this.prompt(prompts, function(answers) {
-                for (let key in answers) {
+                parameters.forEach(function(param) {
                     this.endpoint.parameters.push({
-                        name: key,
+                        name: param,
                         in: 'path',
                         type: 'string',
-                        required: answers[key]
+                        required: answers['required.' + param]
                     });
-                }
+                }.bind(this));
 
                 done();
             }.bind(this));
