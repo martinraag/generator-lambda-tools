@@ -1,0 +1,36 @@
+{
+    "<%= method %>": {
+        "responses": {
+            "default": {
+                "description": "Default response",
+                "schema": {
+                    "type": "object",
+                    "properties": {},
+                    "additionalProperties": true
+                }
+            }
+        },
+        "parameters": <%- JSON.stringify(parameters) %>,
+        "x-amazon-apigateway-auth": {
+            "type": "none"
+        },
+        "x-amazon-apigateway-integration": {
+            "type": "aws",
+            "uri": "$l<%= lambdaName %>",
+            "credentials": "$IamRoleArnApiGateway",
+            "httpMethod": "POST",
+            "requestParameters": <%- JSON.stringify(requestParameters) %>,
+            "requestTemplates": {
+                "application/json": <%- JSON.stringify(requestTemplate) %>
+            },
+            "responses": {
+                "default": {
+                    "statusCode": "200",
+                    "responseTemplates": {
+                        "application/json": ""
+                    }
+                }
+            }
+        }
+    }
+}

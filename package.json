@@ -4,7 +4,8 @@
   "description": "Yeoman generators for lambda-tools",
   "files": [
     "generators/app",
-    "generators/lambda"
+    "generators/lambda",
+    "generators/endpoint"
   ],
   "scripts": {
     "test": "mocha"
@@ -18,6 +19,8 @@
   },
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.4.1",
+    "lodash": "^4.5.1",
     "mkdirp": "^0.5.1",
     "yeoman-generator": "^0.22.5"
   },
