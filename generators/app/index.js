@@ -68,5 +68,8 @@ module.exports = generators.Base.extend({
 
         // Create a placeholder directory for lambdas
         mkdirp.sync(this.destinationPath('lambdas'));
+
+        // Create a config file
+        this.config.save();
     }
 });
