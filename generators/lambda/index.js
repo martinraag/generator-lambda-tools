@@ -2,42 +2,58 @@
 
 const generators = require('yeoman-generator');
 const path = require('path');
+const helpers = require('../../lib/helper');
 
 module.exports = generators.Base.extend({
+    constructor: function () {
+        generators.Base.apply(this, arguments);
+
+        // Allow lambda name to be passed in as an argument
+        this.option('name', { type: String, desc: 'Lambda function name' });
+        this.option('event', { desc: 'If event.json should be created', type: Boolean });
+    },
+
     prompting: function() {
         const done = this.async();
+        const prompts = [];
 
-        const prompts = [
-            {
+        this.lambda = {
+            name: this.options.name,
+            event: this.options.event
+        };
+
+        if (!this.lambda.name) {
+            prompts.push({
                 type: 'input',
-                name: 'lambdaName',
-                validate: function(value) {
-                    if (value.length === 0) {
-                        return 'Can\'t have an empty name';
-                    }
-
-                    const pattern = /^([a-zA-Z0-9-_]{1,140})$/
-
-                    if (!value.match(pattern)) {
-                        return 'Name must only include A-Z, a-z, 0-9, \'-\' or \'_\' and be at most 140 characters'
-                    }
-
-                    return true
-                },
+                name: 'name',
                 message: 'Lambda function name',
-            },
-            {
+                validate: function(value) {
+                    try {
+                        return helpers.isValidLambdaName(value);
+                    } catch (err) {
+                        return err.message;
+                    }
+                }
+            });
+        }
+
+        if (!this.lambda.event) {
+            prompts.push({
                 type: 'confirm',
-                name: 'createLambdaEvent',
+                name: 'event',
                 message: 'Create event.json',
                 default: true
-            }
-        ];
+            });
+        }
+
+        if (prompts.length === 0) {
+            return done();
+        }
 
         this.prompt(prompts, function (answers) {
             this.lambda = {
-                name: answers.lambdaName,
-                createEvent: answers.createLambdaEvent
+                name: this.lambda.name || answers.name,
+                event: this.lambda.event || answers.event
             };
 
             done();
@@ -50,7 +66,7 @@ module.exports = generators.Base.extend({
         // index.js
         this.copy(this.templatePath('index.js'), path.join(lambdaRoot, 'index.js'));
 
-        if (this.lambda.createEvent) {
+        if (this.lambda.event) {
             // event.json
             this.copy(this.templatePath('event.json'), path.join(lambdaRoot, 'event.json'));
         }
