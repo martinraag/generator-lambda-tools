@@ -76,6 +76,29 @@ module.exports = generators.Base.extend({
             }.bind(this));
         },
 
+        bodyParameter: function() {
+            if (['post', 'put', 'patch'].indexOf(this.endpoint.method) === -1) {
+                return;
+            }
+
+            const prompts = [
+                {
+                    type: 'input',
+                    name: 'requestBodyName',
+                    message: 'Map request body to event property (leave blank to skip)'
+                }
+            ];
+
+            const done = this.async();
+            this.prompt(prompts, function(answers) {
+                if (answers.requestBodyName) {
+                    this.endpoint.bodyParameter = answers.requestBodyName;
+                }
+
+                done();
+            }.bind(this));
+        },
+
         pathParameters: function() {
             const parameters = helpers.extractURLParameters(this.endpoint.path);
 
@@ -215,13 +238,22 @@ module.exports = generators.Base.extend({
             requestTemplate[_.camelCase(key)] = '$util.urlDecode($input.params(\'' + key + '\'))';
         }
 
+        let requestTemplateString;
+        if (this.endpoint.bodyParameter) {
+            requestTemplate[this.endpoint.bodyParameter] = '<%= placeholder %>';
+            requestTemplateString = JSON.stringify(requestTemplate);
+            requestTemplateString = requestTemplateString.replace(/"<%= placeholder %>"/g, "$$input.json('$$')");
+        } else {
+            requestTemplateString = JSON.stringify(requestTemplate);
+        }
+
         // Create the endpoint entry from a template
         const template = fs.readFileSync(this.templatePath('api.json'), 'utf8');
         const rendered = ejs.render(template, {
             method: this.endpoint.method,
             parameters: this.endpoint.parameters,
             requestParameters: requestParameters,
-            requestTemplate: JSON.stringify(requestTemplate),
+            requestTemplate: requestTemplateString,
             lambdaName: name
         });
 
