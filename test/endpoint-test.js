@@ -192,4 +192,69 @@ describe('@testlio/lambda-tools:endpoint', function() {
             });
         });
     });
+
+    describe('Request that may have body', function() {
+        describe('With body mapping', function() {
+            before(function(done) {
+                this.prompts = {
+                    path: '/',
+                    name: 'test-function',
+                    method: 'post',
+                    mapHeader: true,
+                    requestHeader: 'Authorization',
+                    integrationHeader: 'x-authorization',
+                    requestBodyName: 'request'
+                };
+
+                runGenerator(this.prompts, done);
+            });
+
+            it('creates entry in api.json', function() {
+                // Should be relatively redundant, but nevertheless
+                assert.file('api.json');
+
+                // Actual validation of the entry in api.json
+                validatePathEntry('/', {
+                    lambdaName: 'TestFunction',
+                    method: this.prompts.method,
+                    parameters: [],
+                    requestParameters: {
+                        'integration.request.header.x-authorization': 'method.request.header.Authorization'
+                    },
+                    requestTemplate: '{"path":"$context.resourcePath","authorization":"$input.params(\'Authorization\')","request":$input.json(\'$\')}'
+                });
+            });
+        });
+
+        describe('Without body mapping', function() {
+            before(function(done) {
+                this.prompts = {
+                    path: '/',
+                    name: 'test-function',
+                    method: 'post',
+                    mapHeader: true,
+                    requestHeader: 'Authorization',
+                    integrationHeader: 'x-authorization',
+                };
+
+                runGenerator(this.prompts, done);
+            });
+
+            it('creates entry in api.json', function() {
+                // Should be relatively redundant, but nevertheless
+                assert.file('api.json');
+
+                // Actual validation of the entry in api.json
+                validatePathEntry('/', {
+                    lambdaName: 'TestFunction',
+                    method: this.prompts.method,
+                    parameters: [],
+                    requestParameters: {
+                        'integration.request.header.x-authorization': 'method.request.header.Authorization'
+                    },
+                    requestTemplate: '{"path":"$context.resourcePath","authorization":"$input.params(\'Authorization\')"}'
+                });
+            });
+        });
+    });
 });
