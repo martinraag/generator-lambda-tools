@@ -9,8 +9,8 @@ describe('@testlio/lambda-tools:lambda', function() {
     describe('Without event.json', function() {
         before(function(done) {
             this.prompts = {
-                lambdaName: 'test-function',
-                createLambdaEvent: false
+                name: 'test-function',
+                event: false
             };
 
             helpers.run(path.join(__dirname, '../generators/lambda'))
@@ -19,7 +19,7 @@ describe('@testlio/lambda-tools:lambda', function() {
         });
 
         it('creates index.js', function() {
-            const lambdaPath = 'lambdas/' + this.prompts.lambdaName + '/index.js';
+            const lambdaPath = 'lambdas/' + this.prompts.name + '/index.js';
             assert.file(lambdaPath);
 
             // Make sure the contents is accurate
@@ -28,7 +28,7 @@ describe('@testlio/lambda-tools:lambda', function() {
         });
 
         it('doesn\'t create event.json', function() {
-            const eventPath = 'lambdas/' + this.prompts.lambdaName + '/event.json';
+            const eventPath = 'lambdas/' + this.prompts.name + '/event.json';
             assert.noFile(eventPath);
         });
     });
@@ -36,8 +36,8 @@ describe('@testlio/lambda-tools:lambda', function() {
     describe('With event.json', function() {
         before(function(done) {
             this.prompts = {
-                lambdaName: 'test-function',
-                createLambdaEvent: true
+                name: 'test-function',
+                event: true
             };
 
             helpers.run(path.join(__dirname, '../generators/lambda'))
@@ -46,7 +46,7 @@ describe('@testlio/lambda-tools:lambda', function() {
         });
 
         it('creates index.js', function() {
-            const lambdaPath = 'lambdas/' + this.prompts.lambdaName + '/index.js';
+            const lambdaPath = 'lambdas/' + this.prompts.name + '/index.js';
             assert.file(lambdaPath);
 
             // Make sure the contents is accurate
@@ -55,7 +55,7 @@ describe('@testlio/lambda-tools:lambda', function() {
         });
 
         it('creates event.json', function() {
-            const eventPath = 'lambdas/' + this.prompts.lambdaName + '/event.json';
+            const eventPath = 'lambdas/' + this.prompts.name + '/event.json';
             assert.file(eventPath);
 
             // Make sure the contents is accurate

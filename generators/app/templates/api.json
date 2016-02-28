@@ -12,9 +12,15 @@
             "name": "ISC"
         }
     },
-    "schemes": [ "https" ],
-    "consumes": [ "application/json" ],
-    "produces": [ "application/json" ],
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "paths": {},
     "responses": {},
     "parameters": {},
