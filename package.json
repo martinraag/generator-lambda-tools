@@ -5,7 +5,8 @@
   "files": [
     "generators/app",
     "generators/lambda",
-    "generators/endpoint"
+    "generators/endpoint",
+    "generators/dynamo-table"
   ],
   "scripts": {
     "test": "mocha"
