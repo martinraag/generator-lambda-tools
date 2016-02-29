@@ -1,0 +1,15 @@
+{
+    "IndexName": "<%= indexName %>",
+    "KeySchema": <%- JSON.stringify(keySchema) %>,
+    "Projection": {
+        "ProjectionType": "ALL"
+    },
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": {
+            "Ref": "aaDefaultDynamoRWThroughput"
+        },
+        "WriteCapacityUnits": {
+            "Ref": "aaDefaultDynamoRWThroughput"
+        }
+    }
+}

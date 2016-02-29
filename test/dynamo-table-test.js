@@ -178,7 +178,9 @@ describe('@testlio/lambda-tools:dynamo-table', function() {
                 globalIndices: [
                     {
                         IndexName: 'TestIndex',
-                        ProjectionType: 'ALL',
+                        Projection: {
+                            ProjectionType: 'ALL'
+                        },
                         KeySchema: [
                             {
                                 AttributeName: 'writeGuid',
@@ -188,7 +190,15 @@ describe('@testlio/lambda-tools:dynamo-table', function() {
                                 AttributeName: 'date',
                                 KeyType: 'RANGE'
                             }
-                        ]
+                        ],
+                        ProvisionedThroughput: {
+                            ReadCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            },
+                            WriteCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            }
+                        }
                     }
                 ]
             });
@@ -279,7 +289,9 @@ describe('@testlio/lambda-tools:dynamo-table', function() {
                 globalIndices: [
                     {
                         IndexName: 'TestIndex',
-                        ProjectionType: 'ALL',
+                        Projection: {
+                            ProjectionType: 'ALL'
+                        },
                         KeySchema: [
                             {
                                 AttributeName: 'writeGuid',
@@ -289,11 +301,21 @@ describe('@testlio/lambda-tools:dynamo-table', function() {
                                 AttributeName: 'date',
                                 KeyType: 'RANGE'
                             }
-                        ]
+                        ],
+                        ProvisionedThroughput: {
+                            ReadCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            },
+                            WriteCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            }
+                        }
                     },
                     {
                         IndexName: 'AnotherTestIndex',
-                        ProjectionType: 'ALL',
+                        Projection: {
+                            ProjectionType: 'ALL'
+                        },
                         KeySchema: [
                             {
                                 AttributeName: 'writeGuid',
@@ -303,11 +325,21 @@ describe('@testlio/lambda-tools:dynamo-table', function() {
                                 AttributeName: 'date',
                                 KeyType: 'RANGE'
                             }
-                        ]
+                        ],
+                        ProvisionedThroughput: {
+                            ReadCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            },
+                            WriteCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            }
+                        }
                     },
                     {
                         IndexName: 'FinalTestIndex',
-                        ProjectionType: 'ALL',
+                        Projection: {
+                            ProjectionType: 'ALL'
+                        },
                         KeySchema: [
                             {
                                 AttributeName: 'writeGuid',
@@ -317,7 +349,15 @@ describe('@testlio/lambda-tools:dynamo-table', function() {
                                 AttributeName: 'date',
                                 KeyType: 'RANGE'
                             }
-                        ]
+                        ],
+                        ProvisionedThroughput: {
+                            ReadCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            },
+                            WriteCapacityUnits: {
+                                Ref: "aaDefaultDynamoRWThroughput"
+                            }
+                        }
                     }
                 ]
             });

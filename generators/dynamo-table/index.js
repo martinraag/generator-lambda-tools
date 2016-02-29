@@ -203,11 +203,11 @@ module.exports = generators.Base.extend({
                         }
                     }
 
-                    this.globalIndices.push({
-                        IndexName: answers['index' + iteration + 'Name'],
-                        KeySchema: keySchema,
-                        ProjectionType: 'ALL'
-                    });
+                    const template = fs.readFileSync(this.templatePath('global-index.json'), 'utf8');
+                    this.globalIndices.push(JSON.parse(ejs.render(template, {
+                        indexName: answers['index' + iteration + 'Name'],
+                        keySchema: keySchema
+                    })));
 
                     if (answers['addIndex' + (iteration + 1)]) {
                         loop(done, iteration + 1);
