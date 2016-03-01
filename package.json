@@ -5,10 +5,13 @@
   "files": [
     "generators/app",
     "generators/lambda",
-    "generators/endpoint"
+    "generators/endpoint",
+    "generators/dynamo-table",
+    "generators/dynamo-index"
   ],
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint ."
   },
   "keywords": [
     "yeoman-generator"
@@ -25,6 +28,7 @@
     "yeoman-generator": "^0.22.5"
   },
   "devDependencies": {
+    "eslint": "^2.2.0",
     "fs-extra": "^0.26.5",
     "is-there": "^4.3.1",
     "mocha": "^2.4.5"

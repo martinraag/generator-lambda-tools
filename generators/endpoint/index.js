@@ -34,7 +34,7 @@ module.exports = generators.Base.extend({
                             return 'Endpoint paths must begin with a slash (/)';
                         }
 
-                        return true
+                        return true;
                     }
                 },
                 {
@@ -142,7 +142,7 @@ module.exports = generators.Base.extend({
                         validate: function(value) {
                             // Super naive implementation, so that empty values are not allowed
                             if (value.length > 0) {
-                                return true
+                                return true;
                             }
 
                             return 'Header name shouldn\'t be empty';
@@ -158,7 +158,7 @@ module.exports = generators.Base.extend({
                         validate: function(value) {
                             // Super naive implementation, so that empty values are not allowed
                             if (value.length > 0) {
-                                return true
+                                return true;
                             }
 
                             return 'Header name shouldn\'t be empty';
@@ -193,7 +193,7 @@ module.exports = generators.Base.extend({
                 default: false
             }, function(answers) {
                 if (answers.mapHeader) {
-                    loop(done)
+                    loop(done);
                 } else {
                     done();
                 }
@@ -203,13 +203,13 @@ module.exports = generators.Base.extend({
 
     writing: function() {
         // Create the lambda function itself
-        this.composeWith("@testlio/lambda-tools:lambda", {
+        this.composeWith('@testlio/lambda-tools:lambda', {
             options: {
                 event: true,
                 name: this.lambda.name
             }
         }, {
-            local: require.resolve("../lambda")
+            local: require.resolve('../lambda')
         });
 
         // Create an API suitable name
@@ -218,7 +218,7 @@ module.exports = generators.Base.extend({
 
         // Create requestParameters
         const requestParameters = {};
-        for (let header in this.endpoint.headers) {
+        for (const header in this.endpoint.headers) {
             const value = 'method.request.header.' + this.endpoint.headers[header];
             requestParameters['integration.request.header.' + header] = value;
         }
@@ -228,12 +228,12 @@ module.exports = generators.Base.extend({
             path: '$context.resourcePath'
         };
 
-        for (let header in this.endpoint.headers) {
+        for (const header in this.endpoint.headers) {
             const key = this.endpoint.headers[header];
             requestTemplate[_.camelCase(key)] = '$input.params(\'' + key + '\')';
         }
 
-        for (let param in this.endpoint.parameters) {
+        for (const param in this.endpoint.parameters) {
             const key = this.endpoint.parameters[param].name;
             requestTemplate[_.camelCase(key)] = '$util.urlDecode($input.params(\'' + key + '\'))';
         }
@@ -242,7 +242,7 @@ module.exports = generators.Base.extend({
         if (this.endpoint.bodyParameter) {
             requestTemplate[this.endpoint.bodyParameter] = '<%= placeholder %>';
             requestTemplateString = JSON.stringify(requestTemplate);
-            requestTemplateString = requestTemplateString.replace(/"<%= placeholder %>"/g, "$$input.json('$$')");
+            requestTemplateString = requestTemplateString.replace(/"<%= placeholder %>"/g, '$$input.json(\'$$\')');
         } else {
             requestTemplateString = JSON.stringify(requestTemplate);
         }

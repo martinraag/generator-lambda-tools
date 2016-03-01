@@ -1,0 +1,33 @@
+{
+    "<%= resourceName %>": {
+        "Type": "AWS::DynamoDB::Table",
+        "Properties": {
+            "TableName": {
+                "Fn::Join": [
+                    "-",
+                    [
+                        {
+                            "Ref": "aaProjectName"
+                        },
+                        {
+                            "Ref": "aaStage"
+                        },
+                        "<%= tableName %>"
+                    ]
+                ]
+            },
+            "AttributeDefinitions": <%- JSON.stringify(attributes) %>,
+            "KeySchema": <%- JSON.stringify(keySchema) %>,
+            "GlobalSecondaryIndexes": [],
+            "LocalSecondaryIndexes": [],
+            "ProvisionedThroughput": {
+                "ReadCapacityUnits": {
+                    "Ref": "aaDefaultDynamoRWThroughput"
+                },
+                "WriteCapacityUnits": {
+                    "Ref": "aaDefaultDynamoRWThroughput"
+                }
+            }
+        }
+    }
+}
