@@ -6,7 +6,8 @@
     "generators/app",
     "generators/lambda",
     "generators/endpoint",
-    "generators/dynamo-table"
+    "generators/dynamo-table",
+    "generators/dynamo-index"
   ],
   "scripts": {
     "test": "mocha",
