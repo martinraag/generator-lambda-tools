@@ -73,8 +73,8 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 path: '/{parameter}/{testing}',
                 name: 'test-function',
                 method: 'get',
-                "required.parameter": true,
-                "required.testing": false
+                'required.parameter': true,
+                'required.testing': false
             };
 
             runGenerator(this.prompts, done);
@@ -150,8 +150,8 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 path: '/{parameter}/{testing}',
                 name: 'test-function',
                 method: 'get',
-                "required.parameter": true,
-                "required.testing": false,
+                'required.parameter': true,
+                'required.testing': false,
                 mapHeader: true,
                 requestHeader: 'Authorization',
                 integrationHeader: 'x-authorization'
@@ -234,7 +234,7 @@ describe('@testlio/lambda-tools:endpoint', function() {
                     method: 'post',
                     mapHeader: true,
                     requestHeader: 'Authorization',
-                    integrationHeader: 'x-authorization',
+                    integrationHeader: 'x-authorization'
                 };
 
                 runGenerator(this.prompts, done);

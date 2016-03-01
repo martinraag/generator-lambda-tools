@@ -3,7 +3,7 @@
     "KeySchema": <%- JSON.stringify(keySchema) %>,
     "Projection": {
         "ProjectionType": "ALL"
-    },
+    }<% if (globalIndex) { %>,
     "ProvisionedThroughput": {
         "ReadCapacityUnits": {
             "Ref": "aaDefaultDynamoRWThroughput"
@@ -12,4 +12,5 @@
             "Ref": "aaDefaultDynamoRWThroughput"
         }
     }
+    <% } %>
 }

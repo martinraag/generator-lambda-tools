@@ -18,7 +18,8 @@
             },
             "AttributeDefinitions": <%- JSON.stringify(attributes) %>,
             "KeySchema": <%- JSON.stringify(keySchema) %>,
-            "GlobalSecondaryIndexes": <%- JSON.stringify(globalIndices) %>,
+            "GlobalSecondaryIndexes": [],
+            "LocalSecondaryIndexes": [],
             "ProvisionedThroughput": {
                 "ReadCapacityUnits": {
                     "Ref": "aaDefaultDynamoRWThroughput"
