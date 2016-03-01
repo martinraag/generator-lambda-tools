@@ -120,7 +120,12 @@ module.exports = generators.Base.extend({
         const attributes = _.uniqBy(_.concat([], existingResource.Properties.AttributeDefinitions, this.attributes), 'AttributeName');
         existingResource.Properties.AttributeDefinitions = attributes;
 
-        existingResource.Properties[this.indexScope].push(resource);
+        if (_.isArray(existingResource.Properties[this.indexScope])) {
+            existingResource.Properties[this.indexScope].push(resource);
+        } else {
+            existingResource.Properties[this.indexScope] = [resource];
+        }
+
         existing.Resources[this.resourceName] = existingResource;
         this.fs.writeJSON(this.destinationPath('cf.json'), existing, null, 4);
     }
