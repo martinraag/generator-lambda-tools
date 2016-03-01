@@ -34,7 +34,7 @@ Not all Lambda functions need to be exposed via the API Gateway, creating such a
 yo @testlio/lambda-tools:lambda
 ```
 
-The generator creates a Lambda function in `<lambda name>/index.js` under the `lambdas` directory, along with an `<lambda name>/event.json`, which can be used by lambda-tools via the `lambda execute` command in the newly created subdirectory.
+The generator creates a Lambda function in `<lambda name>/index.js` under the `lambdas` directory, along with `<lambda name>/event.json`, which can be used by lambda-tools via the `lambda execute` command in the newly created subdirectory.
 
 ### Endpoint
 
