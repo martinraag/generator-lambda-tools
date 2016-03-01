@@ -41,10 +41,7 @@ module.exports = generators.Base.extend({
                 {
                     type: 'input',
                     name: 'indexName',
-                    message: 'Index name',
-                    filter: function(value) {
-                        return value.toLowerCase();
-                    }
+                    message: 'Index name'
                 },
                 {
                     type: 'list',
