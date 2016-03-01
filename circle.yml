@@ -1,0 +1,13 @@
+machine:
+    node:
+        version: "5.7.0"
+
+test:
+    pre:
+        - npm run lint
+
+deployment:
+    prod:
+        branch: master
+        commands:
+            - npm publish || true
