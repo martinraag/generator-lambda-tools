@@ -174,6 +174,12 @@ module.exports = generators.Base.extend({
 
                 this.prompt(prompts, function(answers) {
                     this.endpoint.headers[answers.integrationHeader] = answers.requestHeader;
+                    this.endpoint.parameters.push({
+                        name: answers.requestHeader,
+                        in: 'header',
+                        type: 'string',
+                        required: answers['required.' + param]
+                    });
 
                     if (answers.mapAnotherHeader) {
                         loop(done);
