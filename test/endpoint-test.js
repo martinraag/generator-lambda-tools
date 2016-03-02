@@ -132,7 +132,14 @@ describe('@testlio/lambda-tools:endpoint', function() {
             validatePathEntry('/', {
                 lambdaName: 'TestFunction',
                 method: this.prompts.method,
-                parameters: [],
+                parameters: [
+                    {
+                        in: 'header',
+                        name: 'Authorization',
+                        required: true,
+                        type: 'string'
+                    }
+                ],
                 requestParameters: {
                     'integration.request.header.x-authorization': 'method.request.header.Authorization'
                 },
@@ -179,6 +186,12 @@ describe('@testlio/lambda-tools:endpoint', function() {
                     in: 'path',
                     type: 'string',
                     required: false
+                },
+                {
+                    name: 'Authorization',
+                    in: 'header',
+                    required: true,
+                    type: 'string'
                 }],
                 requestParameters: {
                     'integration.request.header.x-authorization': 'method.request.header.Authorization'
@@ -217,7 +230,12 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 validatePathEntry('/', {
                     lambdaName: 'TestFunction',
                     method: this.prompts.method,
-                    parameters: [],
+                    parameters: [{
+                        name: 'Authorization',
+                        in: 'header',
+                        required: true,
+                        type: 'string'
+                    }],
                     requestParameters: {
                         'integration.request.header.x-authorization': 'method.request.header.Authorization'
                     },
@@ -248,7 +266,12 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 validatePathEntry('/', {
                     lambdaName: 'TestFunction',
                     method: this.prompts.method,
-                    parameters: [],
+                    parameters: [{
+                        in: 'header',
+                        name: 'Authorization',
+                        required: true,
+                        type: 'string'
+                    }],
                     requestParameters: {
                         'integration.request.header.x-authorization': 'method.request.header.Authorization'
                     },

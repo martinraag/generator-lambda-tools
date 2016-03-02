@@ -12,7 +12,8 @@ module.exports = generators.Base.extend({
 
         // Set up placeholders for prompt answers
         this.endpoint = {
-            parameters: [],
+            pathParameters: [],
+            headerParameters: [],
             headers: {}
         };
 
@@ -120,7 +121,7 @@ module.exports = generators.Base.extend({
 
             this.prompt(prompts, function(answers) {
                 parameters.forEach(function(param) {
-                    this.endpoint.parameters.push({
+                    this.endpoint.pathParameters.push({
                         name: param,
                         in: 'path',
                         type: 'string',
@@ -174,11 +175,11 @@ module.exports = generators.Base.extend({
 
                 this.prompt(prompts, function(answers) {
                     this.endpoint.headers[answers.integrationHeader] = answers.requestHeader;
-                    this.endpoint.parameters.push({
+                    this.endpoint.headerParameters.push({
                         name: answers.requestHeader,
                         in: 'header',
                         type: 'string',
-                        required: answers['required.' + param]
+                        required: true
                     });
 
                     if (answers.mapAnotherHeader) {
@@ -239,8 +240,8 @@ module.exports = generators.Base.extend({
             requestTemplate[_.camelCase(key)] = '$input.params(\'' + key + '\')';
         }
 
-        for (const param in this.endpoint.parameters) {
-            const key = this.endpoint.parameters[param].name;
+        for (const param in this.endpoint.pathParameters) {
+            const key = this.endpoint.pathParameters[param].name;
             requestTemplate[_.camelCase(key)] = '$util.urlDecode($input.params(\'' + key + '\'))';
         }
 
@@ -257,7 +258,7 @@ module.exports = generators.Base.extend({
         const template = fs.readFileSync(this.templatePath('api.json'), 'utf8');
         const rendered = ejs.render(template, {
             method: this.endpoint.method,
-            parameters: this.endpoint.parameters,
+            parameters: [].concat(this.endpoint.pathParameters).concat(this.endpoint.headerParameters),
             requestParameters: requestParameters,
             requestTemplate: requestTemplateString,
             lambdaName: name
