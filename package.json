@@ -1,13 +1,14 @@
 {
   "name": "@testlio/generator-lambda-tools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Yeoman generators for lambda-tools",
   "files": [
     "generators/app",
     "generators/lambda",
     "generators/endpoint",
     "generators/dynamo-table",
-    "generators/dynamo-index"
+    "generators/dynamo-index",
+    "lib"
   ],
   "scripts": {
     "test": "mocha",
