@@ -33,11 +33,8 @@ module.exports = generators.Base.extend({
         ];
 
         this.prompt(prompts, function (answers) {
-            const name = answers.serviceName.toLowerCase().replace(/\s+/g, '-');
-            const acronym = name.split('-').map(function(s) { return s.charAt(0); }).join('');
             this.service = {
-                name: name,
-                acronym: acronym,
+                name: answers.serviceName.toLowerCase().replace(/\s+/g, '-'),
                 description: answers.serviceDescription
             };
 
