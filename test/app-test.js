@@ -41,7 +41,9 @@ describe('@testlio/lambda-tools:app', function() {
 
         assert.equal(actual.Description, this.prompts.serviceDescription);
         assert.equal(actual.Parameters.aaProjectName.Default, this.prompts.serviceName);
-        assert.equal(actual.Parameters.aaProjectName.AllowedValues[0], this.prompts.serviceName);
+        assert.deepEqual(actual.Parameters.aaProjectName.AllowedValues, [this.prompts.serviceName]);
+        assert.equal(actual.Parameters.aaProjectNameAcronym.Default, this.prompts.serviceName.charAt(0));
+        assert.deepEqual(actual.Parameters.aaProjectNameAcronym.AllowedValues, [this.prompts.serviceName.charAt(0)]);
     });
 
     it('generates lambdas directory', function() {

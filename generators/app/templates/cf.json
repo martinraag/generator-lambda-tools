@@ -9,6 +9,13 @@
                 "<%= service.name %>"
             ]
         },
+        "aaProjectNameAcronym": {
+            "Type": "String",
+            "Default": "<%= service.acronym %>",
+            "AllowedValues": [
+                "<%= service.acronym %>"
+            ]
+        },
         "aaStage": {
             "Type": "String",
             "Default": "dev"
