@@ -1,6 +1,6 @@
 {
   "name": "@testlio/generator-lambda-tools",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Yeoman generators for lambda-tools",
   "files": [
     "generators/app",
