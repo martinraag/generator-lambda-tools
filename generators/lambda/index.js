@@ -4,6 +4,12 @@ const generators = require('yeoman-generator');
 const path = require('path');
 const helpers = require('../../lib/helper');
 
+/**
+ *  Generator for creating a new Lambda function, one which is not
+ *  exposed via the API, but is still part of the service. Creates
+ *  appropriate scaffolding in the 'lambdas' directory for the newly
+ *  created Lambda function.
+ */
 module.exports = generators.Base.extend({
     constructor: function () {
         generators.Base.apply(this, arguments);

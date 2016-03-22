@@ -6,6 +6,11 @@ const ejs = require('ejs');
 
 const helpers = require('../../lib/helper');
 
+/**
+ *  Generator that simplifies adding indices to DynamoDB tables
+ *  used in the service. Assumes that at least one DynamoDB resource is
+ *  defined in 'cf.json', which can be done with the dynamo-table generator
+ */
 module.exports = generators.Base.extend({
     constructor: function () {
         generators.Base.apply(this, arguments);

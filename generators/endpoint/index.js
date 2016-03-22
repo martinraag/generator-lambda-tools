@@ -6,6 +6,12 @@ const fs = require('fs');
 const helpers = require('../../lib/helper');
 const _ = require('lodash');
 
+/**
+ *  Generator for adding a new API endpoint to the service, including the backing
+ *  lambda function. The generator makes sure that path and header parameters
+ *  are appropriately mapped in 'api.json' and also creates the scaffolding
+ *  for the implementation of the Lambda function under the 'lambdas' directory
+ */
 module.exports = generators.Base.extend({
     constructor: function() {
         generators.Base.apply(this, arguments);

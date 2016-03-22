@@ -3,6 +3,11 @@
 const generators = require('yeoman-generator');
 const mkdirp = require('mkdirp');
 
+/**
+ *  Main 'app' generator, sets up the basis for a Lambda backed
+ *  service, which includes the 'lambdas' directory as well as the
+ *  stubs for 'api.json' and 'cf.json' files.
+ */
 module.exports = generators.Base.extend({
     prompting: function() {
         const done = this.async();
