@@ -301,7 +301,7 @@ module.exports = generators.Base.extend({
         const endpoint = JSON.parse(rendered);
         const existing = this.fs.readJSON(this.destinationPath('api.json'));
         existing.paths[this.endpoint.path] = _.assign(existing.paths[this.endpoint.path] || {}, endpoint);
-        existing.parameters = _.assign(existing.parameters || {}, swaggerParameters);
+        existing.parameters = _.assign(existing.parameters || {}, swaggerParameters);
         this.fs.writeJSON(this.destinationPath('api.json'), existing, null, 4);
     }
 });
