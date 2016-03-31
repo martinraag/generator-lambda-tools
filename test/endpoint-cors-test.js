@@ -255,4 +255,71 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
                 expectedResponses, expectedAmazonResponses);
         });
     });
+
+    describe('With custom origin, methods and headers', function() {
+        before(function(done) {
+            this.prompts = {
+                path: '/',
+                allowOrigin: 'http://test.com',
+                allowMethods: ['GET'],
+                allowHeaders: ['Authorization']
+            };
+
+            runGenerator(this.prompts, done);
+        });
+
+        it('adds options entry to api.json', function() {
+            // Should be relatively redundant, but nevertheless
+            assert.file('api.json');
+
+            // Actual validation of the entry in api.json
+            validateOptionsEntry('/', {
+                responseParameters: {
+                    'method.response.header.Access-Control-Allow-Origin': '\'http://test.com\'',
+                    'method.response.header.Access-Control-Allow-Headers': '\'Authorization\'',
+                    'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
+                }
+            });
+        });
+
+        it('updates existing method entries in api.json', function() {
+            // Should be relatively redundant, but nevertheless
+            assert.file('api.json');
+
+            const expectedResponses = {
+                '200': {
+                    allOf: [
+                        {
+                            'description': 'Default response',
+                            'schema': {
+                                'type': 'object',
+                                'properties': {},
+                                'additionalProperties': true
+                            }
+                        },
+                        {
+                            '$ref': '#/responses/CORSHeaders'
+                        }
+                    ]
+                }
+            };
+
+            const expectedAmazonResponses = {
+                default: {
+                    statusCode: '200',
+                    responseTemplates: {
+                        'application/json': ''
+                    },
+                    responseParameters: {
+                        'method.response.header.Access-Control-Allow-Origin': '\'http://test.com\'',
+                        'method.response.header.Access-Control-Allow-Headers': '\'Authorization\'',
+                        'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
+                    }
+                }
+            };
+
+            validateUpdatedPathEntry('/', this.prompts.allowMethods,
+                expectedResponses, expectedAmazonResponses);
+        });
+    });
 });
