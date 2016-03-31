@@ -35,6 +35,9 @@ function validatePathEntry(actualPath, templateValues) {
     const templatePath = path.join(__dirname, '../generators/endpoint/templates/api.json');
     const comparison = JSON.parse(ejs.render(fs.readFileSync(templatePath, 'utf8'), templateValues));
     assert.deepStrictEqual(contents.paths[actualPath], comparison);
+
+    // Also assert that the global parameters are accurate
+    assert.deepStrictEqual(contents.parameters, templateValues.fullParameters);
 }
 
 //
@@ -61,6 +64,7 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 lambdaName: 'TestFunction',
                 method: this.prompts.method,
                 parameters: [],
+                fullParameters: {},
                 requestParameters: {},
                 requestTemplate: JSON.stringify({ path: '$context.resourcePath' })
             });
@@ -89,17 +93,25 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 lambdaName: 'TestFunction',
                 method: this.prompts.method,
                 parameters: [{
-                    name: 'parameter',
-                    in: 'path',
-                    type: 'string',
-                    required: true
+                    '$ref': '#/parameters/ParameterPath'
                 },
                 {
-                    name: 'testing',
-                    in: 'path',
-                    type: 'string',
-                    required: false
+                    '$ref': '#/parameters/TestingPath'
                 }],
+                fullParameters: {
+                    ParameterPath: {
+                        name: 'parameter',
+                        in: 'path',
+                        type: 'string',
+                        required: true
+                    },
+                    TestingPath: {
+                        name: 'testing',
+                        in: 'path',
+                        type: 'string',
+                        required: false
+                    }
+                },
                 requestParameters: {},
                 requestTemplate: JSON.stringify({
                     path: '$context.resourcePath',
@@ -132,14 +144,17 @@ describe('@testlio/lambda-tools:endpoint', function() {
             validatePathEntry('/', {
                 lambdaName: 'TestFunction',
                 method: this.prompts.method,
-                parameters: [
-                    {
+                parameters: [{
+                    '$ref': '#/parameters/AuthorizationHeader'
+                }],
+                fullParameters: {
+                    AuthorizationHeader: {
                         in: 'header',
                         name: 'Authorization',
                         required: true,
                         type: 'string'
                     }
-                ],
+                },
                 requestParameters: {
                     'integration.request.header.x-authorization': 'method.request.header.Authorization'
                 },
@@ -176,23 +191,34 @@ describe('@testlio/lambda-tools:endpoint', function() {
                 lambdaName: 'TestFunction',
                 method: this.prompts.method,
                 parameters: [{
-                    name: 'parameter',
-                    in: 'path',
-                    type: 'string',
-                    required: true
+                    '$ref': '#/parameters/ParameterPath'
                 },
                 {
-                    name: 'testing',
-                    in: 'path',
-                    type: 'string',
-                    required: false
+                    '$ref': '#/parameters/TestingPath'
                 },
                 {
-                    name: 'Authorization',
-                    in: 'header',
-                    required: true,
-                    type: 'string'
+                    '$ref': '#/parameters/AuthorizationHeader'
                 }],
+                fullParameters: {
+                    ParameterPath: {
+                        name: 'parameter',
+                        in: 'path',
+                        type: 'string',
+                        required: true
+                    },
+                    TestingPath: {
+                        name: 'testing',
+                        in: 'path',
+                        type: 'string',
+                        required: false
+                    },
+                    AuthorizationHeader: {
+                        name: 'Authorization',
+                        in: 'header',
+                        required: true,
+                        type: 'string'
+                    }
+                },
                 requestParameters: {
                     'integration.request.header.x-authorization': 'method.request.header.Authorization'
                 },
@@ -231,11 +257,16 @@ describe('@testlio/lambda-tools:endpoint', function() {
                     lambdaName: 'TestFunction',
                     method: this.prompts.method,
                     parameters: [{
-                        name: 'Authorization',
-                        in: 'header',
-                        required: true,
-                        type: 'string'
+                        '$ref': '#/parameters/AuthorizationHeader'
                     }],
+                    fullParameters: {
+                        AuthorizationHeader: {
+                            name: 'Authorization',
+                            in: 'header',
+                            required: true,
+                            type: 'string'
+                        }
+                    },
                     requestParameters: {
                         'integration.request.header.x-authorization': 'method.request.header.Authorization'
                     },
@@ -267,11 +298,16 @@ describe('@testlio/lambda-tools:endpoint', function() {
                     lambdaName: 'TestFunction',
                     method: this.prompts.method,
                     parameters: [{
-                        in: 'header',
-                        name: 'Authorization',
-                        required: true,
-                        type: 'string'
+                        '$ref': '#/parameters/AuthorizationHeader'
                     }],
+                    fullParameters: {
+                        AuthorizationHeader: {
+                            in: 'header',
+                            name: 'Authorization',
+                            required: true,
+                            type: 'string'
+                        }
+                    },
                     requestParameters: {
                         'integration.request.header.x-authorization': 'method.request.header.Authorization'
                     },

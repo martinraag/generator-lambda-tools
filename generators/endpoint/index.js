@@ -6,6 +6,12 @@ const fs = require('fs');
 const helpers = require('../../lib/helper');
 const _ = require('lodash');
 
+/**
+ *  Generator for adding a new API endpoint to the service, including the backing
+ *  lambda function. The generator makes sure that path and header parameters
+ *  are appropriately mapped in 'api.json' and also creates the scaffolding
+ *  for the implementation of the Lambda function under the 'lambdas' directory
+ */
 module.exports = generators.Base.extend({
     constructor: function() {
         generators.Base.apply(this, arguments);
@@ -254,11 +260,38 @@ module.exports = generators.Base.extend({
             requestTemplateString = JSON.stringify(requestTemplate);
         }
 
+        // Convert parameters to references (use a nicer style, where parameters are globally
+        // defined in the template)
+        const templateParameters = [];
+        const swaggerParameters = {};
+
+        for (const param in this.endpoint.pathParameters) {
+            let key = _.camelCase(this.endpoint.pathParameters[param].name) + 'Path';
+            key = key.charAt(0).toUpperCase() + key.substring(1);
+
+            templateParameters.push({
+                '$ref': '#/parameters/' + key
+            });
+
+            swaggerParameters[key] = this.endpoint.pathParameters[param];
+        }
+
+        for (const param in this.endpoint.headerParameters) {
+            let key = _.camelCase(this.endpoint.headerParameters[param].name) + 'Header';
+            key = key.charAt(0).toUpperCase() + key.substring(1);
+
+            templateParameters.push({
+                '$ref': '#/parameters/' + key
+            });
+
+            swaggerParameters[key] = this.endpoint.headerParameters[param];
+        }
+
         // Create the endpoint entry from a template
         const template = fs.readFileSync(this.templatePath('api.json'), 'utf8');
         const rendered = ejs.render(template, {
             method: this.endpoint.method,
-            parameters: [].concat(this.endpoint.pathParameters).concat(this.endpoint.headerParameters),
+            parameters: templateParameters,
             requestParameters: requestParameters,
             requestTemplate: requestTemplateString,
             lambdaName: name
@@ -268,6 +301,7 @@ module.exports = generators.Base.extend({
         const endpoint = JSON.parse(rendered);
         const existing = this.fs.readJSON(this.destinationPath('api.json'));
         existing.paths[this.endpoint.path] = _.assign(existing.paths[this.endpoint.path] || {}, endpoint);
+        existing.parameters = _.assign(existing.parameters || {}, swaggerParameters);
         this.fs.writeJSON(this.destinationPath('api.json'), existing, null, 4);
     }
 });

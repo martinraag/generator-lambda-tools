@@ -7,6 +7,11 @@ const ejs = require('ejs');
 
 const helpers = require('../../lib/helper');
 
+/**
+ *  Generator for creating a new DynamoDB table for the service,
+ *  results in a new entry in 'cf.json' that corresponds to a DynamoDB
+ *  table
+ */
 module.exports = generators.Base.extend({
     constructor: function () {
         generators.Base.apply(this, arguments);
