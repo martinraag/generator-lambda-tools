@@ -4,7 +4,6 @@ const generators = require('yeoman-generator');
 const inquirer = require('inquirer');
 const ejs = require('ejs');
 const fs = require('fs');
-const helpers = require('../../lib/helper');
 const _ = require('lodash');
 
 /**
@@ -80,23 +79,22 @@ module.exports = generators.Base.extend({
                     message: 'Allow headers',
                     choices: function(answers) {
                         // Pick up all headers for chosen methods
-                        const methods = answers.allowMethods;
                         let headers = answers.allowMethods.reduce(function(current, method) {
                             method = method.toLowerCase();
 
                             const params = this.endpoint[method]['x-amazon-apigateway-integration'].requestParameters;
 
-                            const headers = [];
+                            const additionalHeaders = [];
                             _.forOwn(params, function(value) {
                                 if (_.startsWith(value, 'method.request.header.')) {
-                                    headers.push({
+                                    additionalHeaders.push({
                                         name: _.trimStart(value, 'method.request.header.'),
                                         checked: true
                                     });
                                 }
                             });
 
-                            return _.unionBy(current, headers, 'name');
+                            return _.unionBy(current, additionalHeaders, 'name');
                         }.bind(this), []);
 
                         // Create two sections (AWS suggested + additional)
@@ -141,7 +139,7 @@ module.exports = generators.Base.extend({
 
             const done = this.async();
             this.prompt(prompts, function (answers) {
-                this.cors.methods = answers.allowMethods.concat('OPTIONS');
+                this.cors.methods = answers.allowMethods;
                 this.cors.headers = answers.allowHeaders;
                 this.cors.origins = answers.allowOrigin.split(',').map(_.trim);
                 done();
@@ -150,12 +148,39 @@ module.exports = generators.Base.extend({
     },
 
     writing: function() {
+        // API we'll be modifying
+        const existingAPI = this.fs.readJSON(this.destinationPath('api.json'));
+
         // Create the response parameters
         const responseParameters = {
             'method.response.header.Access-Control-Allow-Headers': '\'' + this.cors.headers.join(',') + '\'',
-            'method.response.header.Access-Control-Allow-Methods': '\'' + this.cors.methods.join(',') + '\'',
+            'method.response.header.Access-Control-Allow-Methods': '\'' + this.cors.methods.concat('OPTIONS').join(',') + '\'',
             'method.response.header.Access-Control-Allow-Origin': '\'' + this.cors.origins.join(',') + '\''
         };
+
+        const headers = {
+            'Access-Control-Allow-Headers': {
+                type: 'string'
+            },
+            'Access-Control-Allow-Methods': {
+                type: 'string'
+            },
+            'Access-Control-Allow-Origin': {
+                type: 'string'
+            }
+        };
+
+        const headerRef = {
+            '$ref': '#/responses/CORSHeaders'
+        };
+
+        // Add the CORS header reference to the api
+        existingAPI.responses = _.merge({}, existingAPI.responses, {
+            CORSHeaders: {
+                headers: headers,
+                description: 'CORS headers'
+            }
+        });
 
         // Create the OPTIONS method
         const template = fs.readFileSync(this.templatePath('api.json'), 'utf8');
@@ -165,38 +190,29 @@ module.exports = generators.Base.extend({
         this.endpoint['options'] = JSON.parse(rendered);
 
         // Add CORS response headers to the selected methods
-        const merge = {
-            responses: {
-                200: {
-                    headers: {
-                        'Access-Control-Allow-Headers': {
-                            type: 'string'
-                        },
-                        'Access-Control-Allow-Methods': {
-                            type: 'string'
-                        },
-                        'Access-Control-Allow-Origin': {
-                            type: 'string'
-                        }
-                    }
-                }
-            },
-            'x-amazon-apigateway-integration': {
-                responses: {
-                    default: {
-                        responseParameters: responseParameters
-                    }
-                }
-            }
-        };
-
         this.cors.methods.forEach(function(method) {
             method = method.toLowerCase();
-            this.endpoint[method] = _.merge({}, this.endpoint[method], merge);
+            const object = this.endpoint[method];
+
+            // Add CORS headers to all current responses
+            _.forOwn(object.responses, function(value, key) {
+                object.responses[key] = {
+                    allOf: [
+                        value,
+                        headerRef
+                    ]
+                };
+            });
+
+            const amzKey = 'x-amazon-apigateway-integration';
+            _.forOwn(object[amzKey].responses, function(value, key) {
+                object[amzKey].responses[key] = _.merge({}, value, {
+                    responseParameters: responseParameters
+                });
+            });
         }.bind(this));
 
         // Write back the final endpoint
-        const existingAPI = this.fs.readJSON(this.destinationPath('api.json'));
         existingAPI.paths[this.path] = this.endpoint;
 
         this.fs.writeJSON(this.destinationPath('api.json'), existingAPI, null, 4);
