@@ -27,20 +27,42 @@ module.exports = generators.Base.extend({
             },
             {
                 type: 'input',
+                name: 'serviceLicense',
+                message: 'License (API)',
+                store: true,
+                default: 'ISC',
+                validate: function(value) {
+                    // Simple rule, make sure the value is present
+                    return value.length > 0 ? true : 'License can\'t be empty';
+                }
+            },
+            {
+                type: 'input',
                 name: 'authorEmail',
-                message: 'Author (email)'
+                message: 'Author (email)',
+                store: true,
+                validate: function(value) {
+                    // Simple rule, make sure the value is present
+                    return value.length > 0 ? true : 'Email can\'t be empty';
+                }
             },
             {
                 type: 'input',
                 name: 'authorName',
-                message: 'Author (name)'
+                message: 'Author (name)',
+                store: true,
+                validate: function(value) {
+                    // Simple rule, make sure the value is present
+                    return value.length > 0 ? true : 'Name can\'t be empty';
+                }
             }
         ];
 
         this.prompt(prompts, function (answers) {
             this.service = {
                 name: answers.serviceName.toLowerCase().replace(/\s+/g, '-'),
-                description: answers.serviceDescription
+                description: answers.serviceDescription,
+                license: answers.serviceLicense
             };
 
             this.author = {
