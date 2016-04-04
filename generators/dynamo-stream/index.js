@@ -4,8 +4,6 @@ const generators = require('yeoman-generator');
 const _ = require('lodash');
 const ejs = require('ejs');
 
-const helpers = require('../../lib/helper');
-
 /**
  *  Generator for adding a Lambda function that is attached to a DynamoDB
  *  stream on an already existing table. Will throw an error if no tables

@@ -60,7 +60,7 @@ describe('@testlio/lambda-tools:dynamo-stream', function() {
             // Should be relatively redundant, but nevertheless
             assert.file('cf.json');
 
-            let name = _.camelCase(this.prompts.lambdaName)
+            let name = _.camelCase(this.prompts.lambdaName);
             name = name.charAt(0).toUpperCase() + name.substring(1);
 
             validateStreamResource('TestDynamoDBStream', {
@@ -116,7 +116,7 @@ describe('@testlio/lambda-tools:dynamo-stream', function() {
             // Should be relatively redundant, but nevertheless
             assert.file('cf.json');
 
-            let name = _.camelCase(this.prompts.lambdaName)
+            let name = _.camelCase(this.prompts.lambdaName);
             name = name.charAt(0).toUpperCase() + name.substring(1);
 
             validateStreamResource(this.prompts.streamName, {
