@@ -1,7 +1,18 @@
 {
     "responses": {
         "200": {
-            "$ref": "#/responses/CORSHeaders"
+            "description": "CORS headers",
+            "headers": {
+                "Access-Control-Allow-Headers": {
+                    "type": "string"
+                },
+                "Access-Control-Allow-Methods": {
+                    "type": "string"
+                },
+                "Access-Control-Allow-Origin": {
+                    "type": "string"
+                }
+            }
         }
     },
     "x-amazon-apigateway-auth": {

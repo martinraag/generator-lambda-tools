@@ -153,9 +153,9 @@ module.exports = generators.Base.extend({
 
         // Create the response parameters
         const responseParameters = {
-            'method.response.header.Access-Control-Allow-Headers': '\'' + this.cors.headers.join(',') + '\'',
-            'method.response.header.Access-Control-Allow-Methods': '\'' + this.cors.methods.concat('OPTIONS').join(',') + '\'',
-            'method.response.header.Access-Control-Allow-Origin': '\'' + this.cors.origins.join(',') + '\''
+            'method.response.header.Access-Control-Allow-Headers': this.cors.headers.join(','),
+            'method.response.header.Access-Control-Allow-Methods': this.cors.methods.concat('OPTIONS').join(','),
+            'method.response.header.Access-Control-Allow-Origin': this.cors.origins.join(',')
         };
 
         const headers = {
@@ -169,18 +169,6 @@ module.exports = generators.Base.extend({
                 type: 'string'
             }
         };
-
-        const headerRef = {
-            '$ref': '#/responses/CORSHeaders'
-        };
-
-        // Add the CORS header reference to the api
-        existingAPI.responses = _.merge({}, existingAPI.responses, {
-            CORSHeaders: {
-                headers: headers,
-                description: 'CORS headers'
-            }
-        });
 
         // Create the OPTIONS method
         const template = fs.readFileSync(this.templatePath('api.json'), 'utf8');
@@ -196,12 +184,11 @@ module.exports = generators.Base.extend({
 
             // Add CORS headers to all current responses
             _.forOwn(object.responses, function(value, key) {
-                object.responses[key] = {
-                    allOf: [
-                        value,
-                        headerRef
-                    ]
-                };
+                if (value.headers) {
+                    value.headers = _.merge({}, value.headers, headers);
+                } else {
+                    value.headers = headers;
+                }
             });
 
             const amzKey = 'x-amazon-apigateway-integration';
