@@ -1,0 +1,19 @@
+{
+    "Type": "AWS::Lambda::EventSourceMapping",
+    "DependsOn": [
+        "IamPolicyLambda",
+        "<%= lambdaName %>",
+        "<%= resourceName %>"
+    ],
+    "Properties": {
+        "BatchSize": <%= stream.batchSize %>,
+        "Enabled": <%= stream.enabled %>,
+        "EventSourceArn": {
+            "Fn::GetAtt": [ "<%= resourceName %>", "StreamArn" ]
+        },
+        "FunctionName": {
+            "Fn::GetAtt": [ "<%= lambdaName %>", "Arn" ]
+        },
+        "StartingPosition": "<%= stream.startingPosition %>"
+    }
+}
