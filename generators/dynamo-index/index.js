@@ -115,7 +115,7 @@ module.exports = generators.Base.extend({
 
             const done = this.async();
             this.prompt(prompts, function(answers) {
-                this.updateLambdaPolicies = answers.updateLambdaPolicies
+                this.updateLambdaPolicies = answers.updateLambdaPolicies;
                 done();
             }.bind(this));
         }
@@ -167,7 +167,7 @@ module.exports = generators.Base.extend({
                 // Add the new policy and write back to file
                 existingPolicies.push(policy);
             }
-            
+
             this.fs.writeJSON(this.destinationPath('lambda_policies.json'), existingPolicies, null, 4);
         } else {
             // First policy, just create an array and write to file
