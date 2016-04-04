@@ -156,22 +156,24 @@ module.exports = generators.Base.extend({
         });
         const policy = JSON.parse(renderedPolicy);
 
-        if (this.fs.exists(this.destinationPath('lambda_policies.json'))) {
-            let existingPolicies = this.fs.readJSON(this.destinationPath('lambda_policies.json'));
+        if (this.updateLambdaPolicies) {
+            if (this.fs.exists(this.destinationPath('lambda_policies.json'))) {
+                let existingPolicies = this.fs.readJSON(this.destinationPath('lambda_policies.json'));
 
-            // Should be an array, if not, make it so
-            existingPolicies = [].concat(existingPolicies);
+                // Should be an array, if not, make it so
+                existingPolicies = [].concat(existingPolicies);
 
-            // Check if the policy already exists
-            if (!_.find(existingPolicies, policy)) {
-                // Add the new policy and write back to file
-                existingPolicies.push(policy);
+                // Check if the policy already exists
+                if (!_.find(existingPolicies, policy)) {
+                    // Add the new policy and write back to file
+                    existingPolicies.push(policy);
+                }
+
+                this.fs.writeJSON(this.destinationPath('lambda_policies.json'), existingPolicies, null, 4);
+            } else {
+                // First policy, just create an array and write to file
+                this.fs.writeJSON(this.destinationPath('lambda_policies.json'), [policy], null, 4);
             }
-
-            this.fs.writeJSON(this.destinationPath('lambda_policies.json'), existingPolicies, null, 4);
-        } else {
-            // First policy, just create an array and write to file
-            this.fs.writeJSON(this.destinationPath('lambda_policies.json'), [policy], null, 4);
         }
     }
 });
