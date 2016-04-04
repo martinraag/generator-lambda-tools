@@ -11,6 +11,7 @@ describe('@testlio/lambda-tools:app', function() {
         this.prompts = {
             serviceName: 'name',
             serviceDescription: 'description',
+            serviceLicense: 'test-license',
             authorName: 'author',
             authorEmail: 'test@test.com'
         };
@@ -28,6 +29,7 @@ describe('@testlio/lambda-tools:app', function() {
 
         assert.equal(actual.info.title, this.prompts.serviceName);
         assert.equal(actual.info.description, this.prompts.serviceDescription);
+        assert.equal(actual.info.license.name, this.prompts.serviceLicense);
         assert.equal(actual.info.contact.name, this.prompts.authorName);
         assert.equal(actual.info.contact.email, this.prompts.authorEmail);
     });

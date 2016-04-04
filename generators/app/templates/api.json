@@ -9,7 +9,7 @@
             "email": "<%= author.email %>"
         },
         "license": {
-            "name": "ISC"
+            "name": "<%= service.license %>"
         }
     },
     "schemes": [
