@@ -76,9 +76,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
             // Actual validation of the entry in api.json
             validateOptionsEntry('/', {
                 responseParameters: {
-                    'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-                    'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
-                    'method.response.header.Access-Control-Allow-Methods': '\'PUT,GET,OPTIONS\''
+                    'method.response.header.Access-Control-Allow-Origin': '*',
+                    'method.response.header.Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page',
+                    'method.response.header.Access-Control-Allow-Methods': 'PUT,GET,OPTIONS'
                 }
             });
         });
@@ -89,19 +89,23 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
 
             const expectedResponses = {
                 '200': {
-                    allOf: [
-                        {
-                            description: 'Default response',
-                            schema: {
-                                type: 'object',
-                                properties: {},
-                                additionalProperties: true
-                            }
+                    description: 'Default response',
+                    schema: {
+                        type: 'object',
+                        properties: {},
+                        additionalProperties: true
+                    },
+                    headers: {
+                        'Access-Control-Allow-Headers': {
+                            type: 'string'
                         },
-                        {
-                            '$ref': '#/responses/CORSHeaders'
+                        'Access-Control-Allow-Methods': {
+                            type: 'string'
+                        },
+                        'Access-Control-Allow-Origin': {
+                            type: 'string'
                         }
-                    ]
+                    }
                 }
             };
 
@@ -112,9 +116,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
                         'application/json': ''
                     },
                     responseParameters: {
-                        'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-                        'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
-                        'method.response.header.Access-Control-Allow-Methods': '\'PUT,GET,OPTIONS\''
+                        'method.response.header.Access-Control-Allow-Origin': '*',
+                        'method.response.header.Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page',
+                        'method.response.header.Access-Control-Allow-Methods': 'PUT,GET,OPTIONS'
                     }
                 }
             };
@@ -142,9 +146,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
             // Actual validation of the entry in api.json
             validateOptionsEntry('/', {
                 responseParameters: {
-                    'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-                    'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
-                    'method.response.header.Access-Control-Allow-Methods': '\'PUT,OPTIONS\''
+                    'method.response.header.Access-Control-Allow-Origin': '*',
+                    'method.response.header.Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page',
+                    'method.response.header.Access-Control-Allow-Methods': 'PUT,OPTIONS'
                 }
             });
         });
@@ -155,19 +159,23 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
 
             const expectedResponses = {
                 '200': {
-                    allOf: [
-                        {
-                            description: 'Default response',
-                            schema: {
-                                type: 'object',
-                                properties: {},
-                                additionalProperties: true
-                            }
+                    description: 'Default response',
+                    schema: {
+                        type: 'object',
+                        properties: {},
+                        additionalProperties: true
+                    },
+                    headers: {
+                        'Access-Control-Allow-Headers': {
+                            type: 'string'
                         },
-                        {
-                            '$ref': '#/responses/CORSHeaders'
+                        'Access-Control-Allow-Methods': {
+                            type: 'string'
+                        },
+                        'Access-Control-Allow-Origin': {
+                            type: 'string'
                         }
-                    ]
+                    }
                 }
             };
 
@@ -178,9 +186,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
                         'application/json': ''
                     },
                     responseParameters: {
-                        'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-                        'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
-                        'method.response.header.Access-Control-Allow-Methods': '\'PUT,OPTIONS\''
+                        'method.response.header.Access-Control-Allow-Origin': '*',
+                        'method.response.header.Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page',
+                        'method.response.header.Access-Control-Allow-Methods': 'PUT,OPTIONS'
                     }
                 }
             };
@@ -208,9 +216,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
             // Actual validation of the entry in api.json
             validateOptionsEntry('/', {
                 responseParameters: {
-                    'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-                    'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,Authorization\'',
-                    'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
+                    'method.response.header.Access-Control-Allow-Origin': '*',
+                    'method.response.header.Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                    'method.response.header.Access-Control-Allow-Methods': 'GET,OPTIONS'
                 }
             });
         });
@@ -221,19 +229,23 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
 
             const expectedResponses = {
                 '200': {
-                    allOf: [
-                        {
-                            'description': 'Default response',
-                            'schema': {
-                                'type': 'object',
-                                'properties': {},
-                                'additionalProperties': true
-                            }
+                    description: 'Default response',
+                    schema: {
+                        type: 'object',
+                        properties: {},
+                        additionalProperties: true
+                    },
+                    headers: {
+                        'Access-Control-Allow-Headers': {
+                            type: 'string'
                         },
-                        {
-                            '$ref': '#/responses/CORSHeaders'
+                        'Access-Control-Allow-Methods': {
+                            type: 'string'
+                        },
+                        'Access-Control-Allow-Origin': {
+                            type: 'string'
                         }
-                    ]
+                    }
                 }
             };
 
@@ -244,9 +256,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
                         'application/json': ''
                     },
                     responseParameters: {
-                        'method.response.header.Access-Control-Allow-Origin': '\'*\'',
-                        'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,Authorization\'',
-                        'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
+                        'method.response.header.Access-Control-Allow-Origin': '*',
+                        'method.response.header.Access-Control-Allow-Headers': 'Content-Type,Authorization',
+                        'method.response.header.Access-Control-Allow-Methods': 'GET,OPTIONS'
                     }
                 }
             };
@@ -275,9 +287,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
             // Actual validation of the entry in api.json
             validateOptionsEntry('/', {
                 responseParameters: {
-                    'method.response.header.Access-Control-Allow-Origin': '\'http://test.com\'',
-                    'method.response.header.Access-Control-Allow-Headers': '\'Authorization\'',
-                    'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
+                    'method.response.header.Access-Control-Allow-Origin': 'http://test.com',
+                    'method.response.header.Access-Control-Allow-Headers': 'Authorization',
+                    'method.response.header.Access-Control-Allow-Methods': 'GET,OPTIONS'
                 }
             });
         });
@@ -288,19 +300,23 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
 
             const expectedResponses = {
                 '200': {
-                    allOf: [
-                        {
-                            'description': 'Default response',
-                            'schema': {
-                                'type': 'object',
-                                'properties': {},
-                                'additionalProperties': true
-                            }
+                    description: 'Default response',
+                    schema: {
+                        type: 'object',
+                        properties: {},
+                        additionalProperties: true
+                    },
+                    headers: {
+                        'Access-Control-Allow-Headers': {
+                            type: 'string'
                         },
-                        {
-                            '$ref': '#/responses/CORSHeaders'
+                        'Access-Control-Allow-Methods': {
+                            type: 'string'
+                        },
+                        'Access-Control-Allow-Origin': {
+                            type: 'string'
                         }
-                    ]
+                    }
                 }
             };
 
@@ -311,9 +327,9 @@ describe('@testlio/lambda-tools:endpoint-cors', function() {
                         'application/json': ''
                     },
                     responseParameters: {
-                        'method.response.header.Access-Control-Allow-Origin': '\'http://test.com\'',
-                        'method.response.header.Access-Control-Allow-Headers': '\'Authorization\'',
-                        'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
+                        'method.response.header.Access-Control-Allow-Origin': 'http://test.com',
+                        'method.response.header.Access-Control-Allow-Headers': 'Authorization',
+                        'method.response.header.Access-Control-Allow-Methods': 'GET,OPTIONS'
                     }
                 }
             };
