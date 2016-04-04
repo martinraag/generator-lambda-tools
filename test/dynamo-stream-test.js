@@ -20,10 +20,14 @@ function validateStreamResource(actualResource, templateValues) {
     assert.deepStrictEqual(contents.Resources[actualResource], comparison);
 }
 
-function validateLambdaPermissions(templateValues) {
+function validateLambdaPermissions(tableResourceName) {
+    const resources = JSON.parse(fs.readFileSync('cf.json')).Resources;
+
     const contents = JSON.parse(fs.readFileSync('lambda_policies.json'));
     const templatePath = path.join(__dirname, '../generators/dynamo-stream/templates/lambda_policies.json');
-    const comparison = JSON.parse(ejs.render(fs.readFileSync(templatePath, 'utf8'), templateValues));
+    const comparison = JSON.parse(ejs.render(fs.readFileSync(templatePath, 'utf8'), {
+        tableName: resources[tableResourceName].Properties.TableName
+    }));
     assert.deepStrictEqual(_.find(contents, comparison), comparison);
 }
 
@@ -79,23 +83,7 @@ describe('@testlio/lambda-tools:dynamo-stream', function() {
         it('Properly adds necessary permissions to lambda_policies.json', function() {
             // Should be relatively redundant, but nevertheless
             assert.file('lambda_policies.json');
-
-            validateLambdaPermissions({
-                tableName: {
-                    'Fn::Join': [
-                        '-',
-                        [
-                            {
-                                Ref: 'aaProjectName'
-                            },
-                            {
-                                Ref: 'aaStage'
-                            },
-                            'test'
-                        ]
-                    ]
-                }
-            });
+            validateLambdaPermissions('TestDynamoDB');
         });
     });
 
@@ -151,23 +139,7 @@ describe('@testlio/lambda-tools:dynamo-stream', function() {
         it('Properly adds necessary permissions to lambda_policies.json', function() {
             // Should be relatively redundant, but nevertheless
             assert.file('lambda_policies.json');
-
-            validateLambdaPermissions({
-                tableName: {
-                    'Fn::Join': [
-                        '-',
-                        [
-                            {
-                                Ref: 'aaProjectName'
-                            },
-                            {
-                                Ref: 'aaStage'
-                            },
-                            'test'
-                        ]
-                    ]
-                }
-            });
+            validateLambdaPermissions(this.prompts.resourceName);
         });
     });
 });
