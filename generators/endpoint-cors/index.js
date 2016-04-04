@@ -183,7 +183,7 @@ module.exports = generators.Base.extend({
             const object = this.endpoint[method];
 
             // Add CORS headers to all current responses
-            _.forOwn(object.responses, function(value, key) {
+            _.forOwn(object.responses, function(value) {
                 if (value.headers) {
                     value.headers = _.merge({}, value.headers, headers);
                 } else {
