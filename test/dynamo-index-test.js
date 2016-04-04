@@ -99,7 +99,7 @@ describe('@testlio/lambda-tools:dynamo-index', function() {
             };
 
             helpers.run(path.join(__dirname, '../generators/dynamo-index'))
-                .inTmpDir(function(dir) {                    
+                .inTmpDir(function(dir) {
                     // Make sure there's a stub cf.json file in place
                     fs.copySync(path.join(__dirname, 'templates/dynamo-index.json'), path.join(dir, 'cf.json'), {
                         clobber: true
