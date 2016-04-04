@@ -1,0 +1,68 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "<%= service.description %>",
+    "Parameters": {
+        "aaProjectName": {
+            "Type": "String",
+            "Default": "<%= service.name %>",
+            "AllowedValues": [
+                "<%= service.name %>"
+            ]
+        },
+        "aaStage": {
+            "Type": "String",
+            "Default": "dev"
+        },
+        "aaDefaultDynamoRWThroughput": {
+            "Type": "String",
+            "Default": "1"
+        }
+    },
+    "Resources": {
+        "TestDynamoDB": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+                "TableName": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "aaProjectName"
+                            },
+                            {
+                                "Ref": "aaStage"
+                            },
+                            "test"
+                        ]
+                    ]
+                },
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "guid",
+                        "AttributeType": "S"
+                    }
+                ],
+                "KeySchema": [
+                    {
+                        "AttributeName": "guid",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "GlobalSecondaryIndexes": [],
+                "LocalSecondaryIndexes": [],
+                "ProvisionedThroughput": {
+                    "ReadCapacityUnits": {
+                        "Ref": "aaDefaultDynamoRWThroughput"
+                    },
+                    "WriteCapacityUnits": {
+                        "Ref": "aaDefaultDynamoRWThroughput"
+                    }
+                },
+                "StreamSpecification": {
+                    "StreamViewType": "NEW_IMAGE"
+                }
+            }
+        }
+    },
+    "Outputs": {}
+}
