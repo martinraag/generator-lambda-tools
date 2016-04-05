@@ -181,6 +181,7 @@ module.exports = generators.Base.extend({
         mkdirp.sync(this.destinationPath('lambdas'));
 
         // Create a config file
+        this.config.set('service', this.service);
         this.config.save();
     }
 });
