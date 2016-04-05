@@ -1,0 +1,36 @@
+{
+    "responses": {
+        "200": {
+            "description": "CORS headers",
+            "headers": {
+                "Access-Control-Allow-Headers": {
+                    "type": "string"
+                },
+                "Access-Control-Allow-Methods": {
+                    "type": "string"
+                },
+                "Access-Control-Allow-Origin": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "x-amazon-apigateway-auth": {
+        "type": "none"
+    },
+    "x-amazon-apigateway-integration": {
+        "type": "mock",
+        "requestTemplates": {
+            "application/json": "{ \"statusCode\": 200 }"
+        },
+        "responses": {
+            "default": {
+                "statusCode": "200",
+                "responseTemplates": {
+                    "application/json": "{}"
+                },
+                "responseParameters": <%- JSON.stringify(responseParameters) %>
+            }
+        }
+    }
+}
