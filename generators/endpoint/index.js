@@ -36,12 +36,12 @@ module.exports = generators.Base.extend({
                     name: 'path',
                     message: 'Path for the endpoint',
                     default: '/',
-                    validate: function(value) {
-                        if (value[0] !== '/') {
-                            return 'Endpoint paths must begin with a slash (/)';
+                    filter: function(value) {
+                        if (value.charAt(0) !== '/') {
+                            return `/${value}`;
                         }
 
-                        return true;
+                        return value;
                     }
                 },
                 {
