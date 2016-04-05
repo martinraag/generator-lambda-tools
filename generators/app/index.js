@@ -95,7 +95,6 @@ module.exports = generators.Base.extend({
             // Ask about installing dependencies
             const dependencies = [
                 {
-                    // LT is always installed as dev-dependency
                     name: 'lambda-tools',
                     value: {
                         name: '@testlio/lambda-tools',
