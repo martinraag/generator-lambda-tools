@@ -30,7 +30,7 @@ Setting up a new service is easy, just run the main generator. The generator wil
 yo @testlio/lambda-tools
 ```
 
-The generator does assume that the npm package has already been set up via `npm init`. The generator will also, optionally, install dependencies to the current node package. Currently, the two dependencies that are offered are [@testlio/lambda-tools](https://github.com/testlio/lambda-tools) and [@testlio/lambda-foundation](https://github.com/testlio/lambda-tools). If the first is installed, the service also configures an appropriate `start` script for the package (if one doesn't already exist).
+The generator does assume that the npm package has already been set up via `npm init`. The generator will also, optionally, install dependencies to the current node package. Currently, the two dependencies that are offered are [@testlio/lambda-tools](https://github.com/testlio/lambda-tools) and [@testlio/lambda-foundation](https://github.com/testlio/lambda-foundation). If the first is installed, the service also configures an appropriate `start` script for the package (if one doesn't already exist).
 
 ### Lambda function
 
