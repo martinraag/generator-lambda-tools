@@ -13,7 +13,6 @@ module.exports = generators.Base.extend({
     prompting: {
         service: function() {
             // Ask for the basic information about this service
-            // Notice, this info is also stored for future reference
             const prompts = [
                 {
                     type: 'input',
