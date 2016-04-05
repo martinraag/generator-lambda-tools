@@ -2,6 +2,7 @@
 
 const generators = require('yeoman-generator');
 const mkdirp = require('mkdirp');
+const _ = require('lodash');
 
 /**
  *  Main 'app' generator, sets up the basis for a Lambda backed
@@ -144,6 +145,18 @@ module.exports = generators.Base.extend({
                     save: !dependency.dev
                 });
             }.bind(this));
+
+            // If lambda-tools was chosen, update start script to use 'lambda run'
+            if (_.find(this.dependencies, { name: '@testlio/lambda-tools' }) &&
+                this.fs.exists(this.destinationPath('package.json'))) {
+
+                const module = this.fs.readJSON(this.destinationPath('package.json'));
+                if (!module.scripts.start) {
+                    module.scripts.start = 'lambda run';
+                }
+
+                this.fs.writeJSON(this.destinationPath('package.json'), module);
+            }
         }
 
         const template = {
