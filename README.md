@@ -76,3 +76,13 @@ Currently, the generator does not allow modifying the throughput options on the 
 yo @testlio/lambda-tools:dynamo-table
 yo @testlio/lambda-tools:dynamo-index
 ```
+
+### DynamoDB stream
+
+DynamoDB tables expose a stream, which allows triggering Lambda functions when a change is conducted on the table (such as adding or removing a row). Enabling the stream and adding a Lambda function to handle the changes can be done via the `dynamo-stream` generator.
+
+```bash
+yo @testlio/lambda-tools:dynamo-stream
+```
+
+The generator will add an appropriate event source mapping to `cf.json`, as well as make sure that `lambda_policies.json` has appropriate policy set for the table.
