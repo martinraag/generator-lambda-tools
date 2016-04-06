@@ -158,7 +158,7 @@ module.exports = generators.Base.extend({
             const policy = JSON.parse(renderedPolicy);
 
             // Read in existing policies
-            const existingPolicies = [].concat(this.fs.readJSON(this.destinationPath('lambda_policies.json'), '[]'));
+            const existingPolicies = [].concat(this.fs.readJSON(this.destinationPath('lambda_policies.json'), []));
 
             // Check if the policy already exists
             if (!_.find(existingPolicies, policy)) {

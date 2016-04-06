@@ -179,10 +179,7 @@ module.exports = generators.Base.extend({
 
         // Add to existing policies
         if (this.fs.exists(this.destinationPath('lambda_policies.json'))) {
-            let existingPolicies = this.fs.readJSON(this.destinationPath('lambda_policies.json'));
-
-            // Should be an array, if not, make it so
-            existingPolicies = [].concat(existingPolicies);
+            const existingPolicies = [].concat(this.fs.readJSON(this.destinationPath('lambda_policies.json'), []));
 
             // Add the new policy and write back to file
             existingPolicies.push(policy);
