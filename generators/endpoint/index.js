@@ -36,12 +36,12 @@ module.exports = generators.Base.extend({
                     name: 'path',
                     message: 'Path for the endpoint',
                     default: '/',
-                    validate: function(value) {
-                        if (value[0] !== '/') {
-                            return 'Endpoint paths must begin with a slash (/)';
+                    filter: function(value) {
+                        if (value.charAt(0) !== '/') {
+                            return `/${value}`;
                         }
 
-                        return true;
+                        return value;
                     }
                 },
                 {
@@ -160,7 +160,12 @@ module.exports = generators.Base.extend({
                         name: 'integrationHeader',
                         message: 'Map to integration header',
                         default: function(answers) {
-                            return 'x-' + answers.requestHeader.toLowerCase();
+                            const lowercase = answers.requestHeader.toLowerCase();
+                            if (_.startsWith(lowercase, 'x-')) {
+                                return lowercase;
+                            }
+
+                            return 'x-' + lowercase;
                         },
                         validate: function(value) {
                             // Super naive implementation, so that empty values are not allowed

@@ -80,6 +80,23 @@ module.exports = generators.Base.extend({
 
                 done();
             }.bind(this));
+        },
+
+        policies: function() {
+            const prompts = [
+                {
+                    type: 'confirm',
+                    name: 'updateLambdaPolicies',
+                    message: 'Include in Lambda access policies',
+                    default: true
+                }
+            ];
+
+            const done = this.async();
+            this.prompt(prompts, function(answers) {
+                this.updateLambdaPolicies = answers.updateLambdaPolicies;
+                done();
+            }.bind(this));
         }
     },
 
@@ -93,5 +110,25 @@ module.exports = generators.Base.extend({
         const existing = this.fs.readJSON(this.destinationPath('cf.json'));
         existing.Resources = _.assign(existing.Resources || {}, resource);
         this.fs.writeJSON(this.destinationPath('cf.json'), existing, null, 4);
+
+        // If needed, update Lambda access policies
+        if (this.updateLambdaPolicies) {
+            const policyTemplate = this.fs.read(this.templatePath('lambda_policies.json'), 'utf8');
+            const renderedPolicy = ejs.render(policyTemplate, {
+                tableName: JSON.stringify(resource[this.resourceName].Properties.TableName)
+            });
+            const policy = JSON.parse(renderedPolicy);
+
+            // Read in existing policies
+            const existingPolicies = [].concat(this.fs.readJSON(this.destinationPath('lambda_policies.json'), '[]'));
+
+            // Check if the policy already exists
+            if (!_.find(existingPolicies, policy)) {
+                // Add the new policy and write back to file
+                existingPolicies.push(policy);
+            }
+
+            this.fs.writeJSON(this.destinationPath('lambda_policies.json'), existingPolicies, null, 4);
+        }
     }
 });

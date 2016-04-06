@@ -30,6 +30,8 @@ Setting up a new service is easy, just run the main generator. The generator wil
 yo @testlio/lambda-tools
 ```
 
+The generator does assume that the npm package has already been set up via `npm init`. The generator will also, optionally, install dependencies to the current node package. Currently, the two dependencies that are offered are [@testlio/lambda-tools](https://github.com/testlio/lambda-tools) and [@testlio/lambda-foundation](https://github.com/testlio/lambda-foundation). If the first is installed, the service also configures an appropriate `start` script for the package (if one doesn't already exist).
+
 ### Lambda function
 
 Not all Lambda functions need to be exposed via the API Gateway, creating such a Lambda function can be done by calling the `lambda` subgenerator:
@@ -51,6 +53,18 @@ yo @testlio/lambda-tools:endpoint
 The endpoint generator supports all HTTP methods supported by API Gateway, as well as primitive mapping of integration headers to request headers to Lambda event properties.
 
 Currently, the generator does not specifically support responses or their templates. These will need to be added manually as needed to `api.json` (default `200 OK` responses are added by default).
+
+### CORS
+
+Once a path has been fully implemented with all of its HTTP methods/endpoints, you can add CORS support to it with the `endpoint-cors` generator.
+
+```bash
+yo @testlio/lambda-tools:endpoint-cors
+```
+
+The generator will make sure the path has the appropriate `OPTIONS` method defined as well as making sure all other methods/responses include suitable CORS headers.
+
+_Note: Currently the `Access-Control-Allow-Headers` header is not optimised, meaning if there are headers that are unique to a specific method on a path, then the headers they have defined will be added to the CORS headers of all other methods on said path as well. Generally this is not a problem, but it may expose more headers than would be ideal._
 
 ### DynamoDB Table/Index
 

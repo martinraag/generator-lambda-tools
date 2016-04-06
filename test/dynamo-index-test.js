@@ -20,6 +20,17 @@ function validateTableResourceAttributes(actualResource, expectedAttributes) {
     assert.deepStrictEqual(_.intersectionBy(expectedAttributes, attributes, 'AttributeName'), expectedAttributes);
 }
 
+function validateTablePolicies(tableResourceName) {
+    const contents = JSON.parse(fs.readFileSync('cf.json'));
+    const policies = JSON.parse(fs.readFileSync('lambda_policies.json'));
+
+    const templatePath = path.join(__dirname, '../generators/dynamo-index/templates/lambda_policies.json');
+    const comparison = JSON.parse(ejs.render(fs.readFileSync(templatePath, 'utf8'), {
+        tableName: JSON.stringify(contents.Resources[tableResourceName].Properties.TableName)
+    }));
+    assert.deepStrictEqual(_.find(policies, comparison), comparison);
+}
+
 describe('@testlio/lambda-tools:dynamo-index', function() {
     describe('Global index with a HASH key', function() {
         before(function(done) {
@@ -68,6 +79,66 @@ describe('@testlio/lambda-tools:dynamo-index', function() {
                     AttributeType: 'S'
                 }
             ]);
+        });
+
+        it('Properly adds appropriate policies to lambda_policies.json', function() {
+            assert.file('lambda_policies.json');
+            validateTablePolicies(this.prompts.resourceName);
+        });
+    });
+
+    describe('Global index with a HASH key without modifying Lambda policies', function() {
+        before(function(done) {
+            this.prompts = {
+                resourceName: 'TestDynamoDB',
+                indexName: 'auxiliaryIndex',
+                indexScope: 'GlobalSecondaryIndexes',
+                hashKeyName: 'auxGuid',
+                hashKeyType: 'S',
+                updateLambdaPolicies: false
+            };
+
+            helpers.run(path.join(__dirname, '../generators/dynamo-index'))
+                .inTmpDir(function(dir) {
+                    // Make sure there's a stub cf.json file in place
+                    fs.copySync(path.join(__dirname, 'templates/dynamo-index.json'), path.join(dir, 'cf.json'), {
+                        clobber: true
+                    });
+                })
+                .withOptions({
+                    force: true
+                })
+                .withPrompts(this.prompts)
+                .on('end', done);
+        });
+
+        it('Generates entry in cf.json', function() {
+            // Should be relatively redundant, but nevertheless
+            assert.file('cf.json');
+
+            // Actual validation of the entry in api.json
+            validateTableResourceIndex('TestDynamoDB', 'GlobalSecondaryIndexes', {
+                resourceName: 'TestDynamoDB',
+                globalIndex: true,
+                indexName: 'auxiliaryIndex',
+                keySchema: [{
+                    AttributeName: 'auxGuid',
+                    KeyType: 'HASH'
+                }]
+            });
+        });
+
+        it('Properly adds index attributes to table attributes', function() {
+            validateTableResourceAttributes('TestDynamoDB', [
+                {
+                    AttributeName: 'auxGuid',
+                    AttributeType: 'S'
+                }
+            ]);
+        });
+
+        it('Skips adding appropriate policies to lambda_policies.json', function() {
+            assert.noFile('lambda_policies.json');
         });
     });
 
@@ -118,6 +189,11 @@ describe('@testlio/lambda-tools:dynamo-index', function() {
                     AttributeType: 'S'
                 }
             ]);
+        });
+
+        it('Properly adds appropriate policies to lambda_policies.json', function() {
+            assert.file('lambda_policies.json');
+            validateTablePolicies(this.prompts.resourceName);
         });
     });
 
@@ -182,6 +258,11 @@ describe('@testlio/lambda-tools:dynamo-index', function() {
                 }
             ]);
         });
+
+        it('Properly adds appropriate policies to lambda_policies.json', function() {
+            assert.file('lambda_policies.json');
+            validateTablePolicies(this.prompts.resourceName);
+        });
     });
 
     describe('Local index with a RANGE key', function() {
@@ -244,6 +325,11 @@ describe('@testlio/lambda-tools:dynamo-index', function() {
                     AttributeType: 'N'
                 }
             ]);
+        });
+
+        it('Properly adds appropriate policies to lambda_policies.json', function() {
+            assert.file('lambda_policies.json');
+            validateTablePolicies(this.prompts.resourceName);
         });
     });
 });

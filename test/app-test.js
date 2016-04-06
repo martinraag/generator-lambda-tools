@@ -13,7 +13,8 @@ describe('@testlio/lambda-tools:app', function() {
             serviceDescription: 'description',
             serviceLicense: 'test-license',
             authorName: 'author',
-            authorEmail: 'test@test.com'
+            authorEmail: 'test@test.com',
+            dependencies: []
         };
 
         helpers.run(path.join(__dirname, '../generators/app'))
