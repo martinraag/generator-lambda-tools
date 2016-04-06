@@ -4,7 +4,7 @@ const helpers = require('yeoman-test');
 const assert = require('yeoman-assert');
 const path = require('path');
 const exists = require('is-there');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 describe('@testlio/lambda-tools:app', function() {
     before(function(done) {
@@ -18,6 +18,12 @@ describe('@testlio/lambda-tools:app', function() {
         };
 
         helpers.run(path.join(__dirname, '../generators/app'))
+            .inTmpDir(function(dir) {
+                // Make sure there's a stub cf.json file in place
+                fs.copySync(path.join(__dirname, 'templates/package.json'), path.join(dir, 'package.json'), {
+                    clobber: true
+                });
+            })
             .withPrompts(this.prompts)
             .on('end', done);
     });

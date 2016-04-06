@@ -28,7 +28,13 @@ module.exports = generators.Base.extend({
                 {
                     type: 'input',
                     name: 'serviceDescription',
-                    message: 'Service description'
+                    message: 'Service description',
+                    default: function() {
+                        return require(this.destinationPath('package.json')).description;
+                    }.bind(this),
+                    validate: function(value) {
+                        return value.length > 0 ? true: 'Service description can not be empty';
+                    }
                 },
                 {
                     type: 'input',
