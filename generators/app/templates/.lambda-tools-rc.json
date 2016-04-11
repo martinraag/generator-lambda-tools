@@ -1,5 +1,5 @@
 {
-    "project": {
+    "project": {
         "name": "<%= service.name %>"
     },
     "aws": {
