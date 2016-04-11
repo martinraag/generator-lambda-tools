@@ -27,7 +27,8 @@ As with any Yeoman generator, the instructions given above are how to start the 
 * [@testlio/lambda-tools:endpoint](#endpoint)
 * [@testlio/lambda-tools:endpoint-cors](#cors)
 * [@testlio/lambda-tools:dynamo-table](#dynamodb-tableindex)
-* [@testlio/lambda-tools:dynamo-stream](#dynamodb-stream)
+* [@testlio/lambda-tools:dynamo-index](#dynamodb-tableindex)
+* [@testlio/lambda-tools:dynamo-stream](#dynamodb-stream)
 
 ### Service/App
 
