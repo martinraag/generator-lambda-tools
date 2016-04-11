@@ -1,0 +1,20 @@
+{
+    "responses": {
+        "<%= status.code %>": {
+            "description": "<%= description %>",
+            "headers": <%- JSON.stringify(headers) %>,
+            "schema": <%- JSON.stringify(schema) %>
+        }
+    },
+    "x-amazon-apigateway-integration": {
+        "responses": {
+            "<%= responseId %>": {
+                "statusCode": "<%= status.code %>",
+                "responseTemplates": {
+                    "<%= template.type %>": <%- JSON.stringify(template.template) %>
+                },
+                "responseParameters": <%- JSON.stringify(parameters) %>
+            }
+        }
+    }
+}

@@ -1,0 +1,148 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Test Service",
+        "description": "Testing endpoint CORS support",
+        "contact": {
+            "name": "Test",
+            "email": "test@test.com"
+        },
+        "license": {
+            "name": "ISC"
+        }
+    },
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/": {
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Default response",
+                        "schema": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": true
+                        }
+                    }
+                },
+                "parameters": {
+
+                },
+                "x-amazon-apigateway-auth": {
+                    "type": "none"
+                },
+                "x-amazon-apigateway-integration": {
+                    "type": "aws",
+                    "uri": "$lLambda",
+                    "credentials": "$IamRoleArnApiGateway",
+                    "httpMethod": "POST",
+                    "requestParameters": {
+                        "integration.request.header.x-oauth": "method.request.header.Authorization",
+                        "integration.request.header.x-page": "method.request.header.X-Page"
+                    },
+                    "requestTemplates": {
+                        "application/json": ""
+                    },
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseTemplates": {
+                                "application/json": ""
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Default response",
+                        "schema": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": true
+                        }
+                    }
+                },
+                "parameters": {
+
+                },
+                "x-amazon-apigateway-auth": {
+                    "type": "none"
+                },
+                "x-amazon-apigateway-integration": {
+                    "type": "aws",
+                    "uri": "$lLambda",
+                    "credentials": "$IamRoleArnApiGateway",
+                    "httpMethod": "POST",
+                    "requestParameters": {
+                        "integration.request.header.x-oauth": "method.request.header.Authorization"
+                    },
+                    "requestTemplates": {
+                        "application/json": ""
+                    },
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseTemplates": {
+                                "application/json": ""
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/foo": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Default response",
+                        "schema": {
+                            "type": "object",
+                            "properties": {},
+                            "additionalProperties": true
+                        }
+                    }
+                },
+                "parameters": {
+
+                },
+                "x-amazon-apigateway-auth": {
+                    "type": "none"
+                },
+                "x-amazon-apigateway-integration": {
+                    "type": "aws",
+                    "uri": "$lLambda",
+                    "credentials": "$IamRoleArnApiGateway",
+                    "httpMethod": "POST",
+                    "requestParameters": {
+
+                    },
+                    "requestTemplates": {
+                        "application/json": ""
+                    },
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseTemplates": {
+                                "application/json": ""
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "responses": {},
+    "parameters": {},
+    "definitions": {}
+}
