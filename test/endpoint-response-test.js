@@ -114,7 +114,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: '400.*',
                 responseDescription: 'Bad Request',
-                responseTemplateEmpty: true
+                hasResponseTemplate: false
             };
 
             runGenerator(this.prompts, done);
@@ -170,7 +170,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: 'BAD REQUEST.*',
                 responseDescription: 'Bad Request',
-                responseTemplateEmpty: false,
+                hasResponseTemplate: true,
                 responseTemplate: '{ "message": "Bad Request", "added": "foo" }'
             };
 
@@ -227,7 +227,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '404',
                 responseId: '404.*',
                 responseDescription: 'Not Found',
-                responseTemplateEmpty: false,
+                hasResponseTemplate: true,
                 responseTemplate: '{ "message": "Not Found" }'
             };
 
@@ -284,7 +284,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: '400.*',
                 responseDescription: 'Bad Request',
-                responseTemplateEmpty: false,
+                hasResponseTemplate: true,
                 responseTemplate: '{ \"message\": \"Bad Request\" }',
                 mapHeader: true,
                 responseHeader: 'method.response.header.Authorization',
@@ -351,7 +351,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: '400.*',
                 responseDescription: 'Bad Request',
-                responseTemplateEmpty: false,
+                hasResponseTemplate: true,
                 responseTemplate: '{ \"message\": \"Bad Request\" }',
                 mapHeader: true,
                 responseHeader: 'method.response.header.Authorization',

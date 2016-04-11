@@ -135,12 +135,12 @@ module.exports = generators.Base.extend({
                     type: 'confirm',
                     name: 'hasResponseTemplate',
                     message: 'Create response template?',
-                    default: function(answers) {
-                        const code = answers.statusCode || answers.statusCodeCommon;
-                        if (code === '400' || code === '401' || code === '403' || code === '404') {
+                    default: function(answers) {
+                        const code = answers.statusCode || answers.statusCodeCommon;
+                        if (code === '400' || code === '401' || code === '403' || code === '404') {
                             return true;
                         } else if (code === '500') {
-                            return true
+                            return true;
                         }
 
                         return false;
