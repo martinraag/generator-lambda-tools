@@ -30,7 +30,12 @@ module.exports = generators.Base.extend({
                     name: 'serviceDescription',
                     message: 'Service description',
                     default: function() {
-                        return require(this.destinationPath('package.json')).description;
+                        const packagePath = this.destinationPath('package.json');
+                        if (this.fs.exists(packagePath)) {
+                            return require(this.destinationPath('package.json')).description;
+                        }
+
+                        return undefined;
                     }.bind(this),
                     validate: function(value) {
                         return value.length > 0 ? true: 'Service description can not be empty';
