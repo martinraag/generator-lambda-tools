@@ -53,6 +53,17 @@ describe('@testlio/lambda-tools:app', function() {
         assert.equal(actual.Parameters.aaProjectName.AllowedValues[0], this.prompts.serviceName);
     });
 
+    it('generates .lambda-tools-rc.json file', function() {
+        assert.file('.lambda-tools-rc.json');
+
+        // The contents should also be valid
+        const actual = JSON.parse(fs.readFileSync('.lambda-tools-rc.json'));
+
+        assert.equal(actual.project.name, this.prompts.serviceName);
+        assert.equal(actual.aws.stage, 'dev');
+        assert.equal(actual.aws.region, 'us-east-1');
+    });
+
     it('generates lambdas directory', function() {
         assert(exists('lambdas'));
     });

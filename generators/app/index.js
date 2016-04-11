@@ -168,7 +168,7 @@ module.exports = generators.Base.extend({
             author: this.author
         };
 
-        // Create the stubs for cf.json and api.json
+        // Create the stubs for cf.json, api.json and .lambda-tools-rc.json
         this.fs.copyTpl(
             this.templatePath('cf.json'),
             this.destinationPath('cf.json'),
@@ -178,6 +178,12 @@ module.exports = generators.Base.extend({
         this.fs.copyTpl(
             this.templatePath('api.json'),
             this.destinationPath('api.json'),
+            template
+        );
+
+        this.fs.copyTpl(
+            this.templatePath('.lambda-tools-rc.json'),
+            this.destinationPath('.lambda-tools-rc.json'),
             template
         );
 
