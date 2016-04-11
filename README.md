@@ -22,6 +22,13 @@ npm install @testlio/generator-lambda-tools -g
 
 As with any Yeoman generator, the instructions given above are how to start the generator, which will guide you through the process by prompting for various answers. It is important to emphasise, that all of the subgenerators assume an existing service is in place (meaning a `cf.json` and `api.json` files already exist).
 
+* [@testlio/lambda-tools](#serviceapp)
+* [@testlio/lambda-tools:lambda](#lambda-function)
+* [@testlio/lambda-tools:endpoint](#endpoint)
+* [@testlio/lambda-tools:endpoint-cors](#cors)
+* [@testlio/lambda-tools:dynamo-table](#dynamodb-tableindex)
+* [@testlio/lambda-tools:dynamo-stream](#dynamodb-stream)
+
 ### Service/App
 
 Setting up a new service is easy, just run the main generator. The generator will set up the main directory structure of the service, as well as setting up a yo config file. The generator creates stubs of `cf.json`, `api.json` and a directory called `lambdas`.
