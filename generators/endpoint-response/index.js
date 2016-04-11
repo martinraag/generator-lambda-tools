@@ -132,9 +132,27 @@ module.exports = generators.Base.extend({
                     default: 'application/json'
                 },
                 {
+                    type: 'confirm',
+                    name: 'hasResponseTemplate',
+                    message: 'Create response template?',
+                    default: function(answers) {
+                        const code = answers.statusCode || answers.statusCodeCommon;
+                        if (code === '400' || code === '401' || code === '403' || code === '404') {
+                            return true;
+                        } else if (code === '500') {
+                            return true
+                        }
+
+                        return false;
+                    }
+                },
+                {
                     type: 'input',
                     name: 'responseTemplate',
-                    message: 'Response template (empty string returns entire response)',
+                    message: 'Response template',
+                    when: function(answers) {
+                        return answers.hasResponseTemplate;
+                    },
                     default: function(answers) {
                         const code = answers.statusCode || answers.statusCodeCommon;
                         if (code === '400') {
@@ -164,7 +182,7 @@ module.exports = generators.Base.extend({
 
                 this.response.template = {
                     type: answers.responseTemplateType,
-                    template: answers.responseTemplate
+                    template: answers.responseTemplate || ''
                 };
 
                 this.response.responseId = answers.responseId;

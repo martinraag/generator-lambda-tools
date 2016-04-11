@@ -57,6 +57,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: '400.*',
                 responseDescription: 'Bad Request',
+                responseTemplateEmpty: false,
                 responseTemplate: '{ \"message\": \"Bad Request\" }'
             };
 
@@ -105,6 +106,62 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
         });
     });
 
+    describe('With empty response template', function() {
+        before(function(done) {
+            this.prompts = {
+                path: '/foo',
+                method: 'post',
+                statusCodeCommon: '400',
+                responseId: '400.*',
+                responseDescription: 'Bad Request',
+                responseTemplateEmpty: true
+            };
+
+            runGenerator(this.prompts, done);
+        });
+
+        it('updates appropriate method entry in api.json', function() {
+            assert.file('api.json');
+
+            const expectedResponses = {
+                '200': {
+                    description: 'Default response',
+                    schema: {
+                        type: 'object',
+                        properties: {},
+                        additionalProperties: true
+                    }
+                },
+                '400': {
+                    description: this.prompts.responseDescription,
+                    headers: {},
+                    schema: {
+                        type: 'object'
+                    }
+                }
+            };
+
+            const expectedAmazonResponses = {
+                default: {
+                    statusCode: '200',
+                    responseTemplates: {
+                        'application/json': ''
+                    }
+                },
+                '400.*': {
+                    statusCode: this.prompts.statusCodeCommon,
+                    responseParameters: {},
+                    responseTemplates: {
+                        'application/json': ''
+                    }
+                }
+            };
+
+            validateUpdatedPathEntry('/foo', [this.prompts.method],
+                expectedResponses, expectedAmazonResponses);
+        });
+    });
+
     describe('With modified response template and ID', function() {
         before(function(done) {
             this.prompts = {
@@ -113,6 +170,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: 'BAD REQUEST.*',
                 responseDescription: 'Bad Request',
+                responseTemplateEmpty: false,
                 responseTemplate: '{ "message": "Bad Request", "added": "foo" }'
             };
 
@@ -169,6 +227,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '404',
                 responseId: '404.*',
                 responseDescription: 'Not Found',
+                responseTemplateEmpty: false,
                 responseTemplate: '{ "message": "Not Found" }'
             };
 
@@ -225,6 +284,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: '400.*',
                 responseDescription: 'Bad Request',
+                responseTemplateEmpty: false,
                 responseTemplate: '{ \"message\": \"Bad Request\" }',
                 mapHeader: true,
                 responseHeader: 'method.response.header.Authorization',
@@ -291,6 +351,7 @@ describe('@testlio/lambda-tools:endpoint-response', function() {
                 statusCodeCommon: '400',
                 responseId: '400.*',
                 responseDescription: 'Bad Request',
+                responseTemplateEmpty: false,
                 responseTemplate: '{ \"message\": \"Bad Request\" }',
                 mapHeader: true,
                 responseHeader: 'method.response.header.Authorization',
