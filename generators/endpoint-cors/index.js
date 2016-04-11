@@ -153,9 +153,9 @@ module.exports = generators.Base.extend({
 
         // Create the response parameters
         const responseParameters = {
-            'method.response.header.Access-Control-Allow-Headers': this.cors.headers.join(','),
-            'method.response.header.Access-Control-Allow-Methods': this.cors.methods.concat('OPTIONS').join(','),
-            'method.response.header.Access-Control-Allow-Origin': this.cors.origins.join(',')
+            'method.response.header.Access-Control-Allow-Headers': `'${this.cors.headers.join(',')}'`,
+            'method.response.header.Access-Control-Allow-Methods': `'${this.cors.methods.concat('OPTIONS').join(',')}'`,
+            'method.response.header.Access-Control-Allow-Origin': `'${this.cors.origins.join(',')}'`
         };
 
         const headers = {
