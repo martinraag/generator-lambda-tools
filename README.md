@@ -25,6 +25,7 @@ As with any Yeoman generator, the instructions given above are how to start the 
 * [@testlio/lambda-tools](#serviceapp)
 * [@testlio/lambda-tools:lambda](#lambda-function)
 * [@testlio/lambda-tools:endpoint](#endpoint)
+* [@testlio/lambda-tools:endpoint-response](#endpoint-response)
 * [@testlio/lambda-tools:endpoint-cors](#cors)
 * [@testlio/lambda-tools:dynamo-table](#dynamodb-tableindex)
 * [@testlio/lambda-tools:dynamo-index](#dynamodb-tableindex)
@@ -61,6 +62,16 @@ yo @testlio/lambda-tools:endpoint
 The endpoint generator supports all HTTP methods supported by API Gateway, as well as primitive mapping of integration headers to request headers to Lambda event properties.
 
 Currently, the generator does not specifically support responses or their templates. These will need to be added manually as needed to `api.json` (default `200 OK` responses are added by default).
+
+### Endpoint Response
+
+Adding a new response (status code) to an endpoint in API Gateway can be done with the `endpoint-response` subgenerator:
+
+```bash
+yo @testlio/lambda-tools:endpoint-response
+```
+
+This generator offers adding a new response (such as a 404 or a 400) to an existing endpoint/HTTP method combination. The generator also covers response mapping templates and parameters (headers). The end result of the generator is a modified `api.json` file, with necessary lines added to support the new response type. These responses can be used by returning an error from the Lambda function, as currently API Gateway does not support multiple response types for successful responses.
 
 ### CORS
 
