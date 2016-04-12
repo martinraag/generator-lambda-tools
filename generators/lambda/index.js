@@ -3,6 +3,7 @@
 const generators = require('yeoman-generator');
 const path = require('path');
 const helpers = require('../../lib/helper');
+const _ = require('lodash');
 
 /**
  *  Generator for creating a new Lambda function, one which is not
@@ -43,7 +44,7 @@ module.exports = generators.Base.extend({
             });
         }
 
-        if (!this.lambda.event) {
+        if (_.isUndefined(this.lambda.event)) {
             prompts.push({
                 type: 'confirm',
                 name: 'event',
@@ -57,10 +58,10 @@ module.exports = generators.Base.extend({
         }
 
         this.prompt(prompts, function (answers) {
-            this.lambda = {
-                name: this.lambda.name || answers.name,
-                event: this.lambda.event || answers.event
-            };
+            this.lambda = _.merge({
+                name: this.lambda.name,
+                event: this.lambda.event
+            }, answers);
 
             done();
         }.bind(this));

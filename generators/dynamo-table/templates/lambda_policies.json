@@ -1,0 +1,31 @@
+{
+    "Effect": "Allow",
+    "Action": [
+        "dynamodb:*"
+    ],
+    "Resource": [
+        {
+            "Fn::Join": [
+                ":",
+                [
+                    "arn:aws:dynamodb",
+                    {
+                        "Ref": "AWS::Region"
+                    },
+                    {
+                        "Ref": "AWS::AccountId"
+                    },
+                    {
+                        "Fn::Join": [
+                            "/",
+                            [
+                                "table",
+                                <%- tableName %>
+                            ]
+                        ]
+                    }
+                ]
+            ]
+        }
+    ]
+}
