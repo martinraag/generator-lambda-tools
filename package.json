@@ -6,8 +6,11 @@
     "generators/app",
     "generators/lambda",
     "generators/endpoint",
+    "generators/endpoint-response",
+    "generators/endpoint-cors",
     "generators/dynamo-table",
     "generators/dynamo-index",
+    "generators/dynamo-stream",
     "lib"
   ],
   "scripts": {
