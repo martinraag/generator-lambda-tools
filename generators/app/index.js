@@ -108,7 +108,7 @@ module.exports = generators.Base.extend({
                 {
                     name: 'lambda-tools',
                     value: {
-                        name: '@testlio/lambda-tools',
+                        name: 'lambda-tools',
                         dev: true
                     },
                     checked: true
@@ -116,7 +116,7 @@ module.exports = generators.Base.extend({
                 {
                     name: 'lambda-foundation',
                     value: {
-                        name: '@testlio/lambda-foundation',
+                        name: 'lambda-foundation',
                         dev: false
                     },
                     checked: true
@@ -156,7 +156,7 @@ module.exports = generators.Base.extend({
             }.bind(this));
 
             // If lambda-tools was chosen, update start script to use 'lambda run'
-            if (_.find(this.dependencies, { name: '@testlio/lambda-tools' }) &&
+            if (_.find(this.dependencies, { name: 'lambda-tools' }) &&
                 this.fs.exists(this.destinationPath('package.json'))) {
 
                 const module = this.fs.readJSON(this.destinationPath('package.json'));

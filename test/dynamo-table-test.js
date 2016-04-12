@@ -25,7 +25,7 @@ function validateTablePolicy(tableResourceName) {
     assert.deepStrictEqual(_.find(policies, comparison), comparison);
 }
 
-describe('@testlio/lambda-tools:dynamo-table', function() {
+describe('lambda-tools:dynamo-table', function() {
     describe('With a HASH key', function() {
         before(function(done) {
             this.prompts = {

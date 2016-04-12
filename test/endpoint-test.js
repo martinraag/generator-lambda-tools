@@ -12,7 +12,7 @@ const ejs = require('ejs');
 
 function runGenerator(prompts, done) {
     const deps = [
-        [helpers.createDummyGenerator(), '@testlio/lambda-tools:lambda']
+        [helpers.createDummyGenerator(), 'lambda-tools:lambda']
     ];
 
     helpers.run(path.join(__dirname, '../generators/endpoint'))
@@ -43,7 +43,7 @@ function validatePathEntry(actualPath, templateValues) {
 //
 //  Tests
 //
-describe('@testlio/lambda-tools:endpoint', function() {
+describe('lambda-tools:endpoint', function() {
     describe('With no parameters', function() {
         before(function(done) {
             this.prompts = {

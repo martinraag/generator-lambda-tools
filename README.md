@@ -22,14 +22,14 @@ npm install generator-lambda-tools -g
 
 As with any Yeoman generator, the instructions given above are how to start the generator, which will guide you through the process by prompting for various answers. It is important to emphasise, that all of the subgenerators assume an existing service is in place (meaning a `cf.json` and `api.json` files already exist).
 
-* [@testlio/lambda-tools](#serviceapp)
-* [@testlio/lambda-tools:lambda](#lambda-function)
-* [@testlio/lambda-tools:endpoint](#endpoint)
-* [@testlio/lambda-tools:endpoint-response](#endpoint-response)
-* [@testlio/lambda-tools:endpoint-cors](#cors)
-* [@testlio/lambda-tools:dynamo-table](#dynamodb-tableindex)
-* [@testlio/lambda-tools:dynamo-index](#dynamodb-tableindex)
-* [@testlio/lambda-tools:dynamo-stream](#dynamodb-stream)
+* [lambda-tools](#serviceapp)
+* [lambda-tools:lambda](#lambda-function)
+* [lambda-tools:endpoint](#endpoint)
+* [lambda-tools:endpoint-response](#endpoint-response)
+* [lambda-tools:endpoint-cors](#cors)
+* [lambda-tools:dynamo-table](#dynamodb-tableindex)
+* [lambda-tools:dynamo-index](#dynamodb-tableindex)
+* [lambda-tools:dynamo-stream](#dynamodb-stream)
 
 ### Service/App
 
@@ -39,7 +39,7 @@ Setting up a new service is easy, just run the main generator. The generator wil
 yo lambda-tools
 ```
 
-The generator does assume that the npm package has already been set up via `npm init`. The generator will also, optionally, install dependencies to the current node package. Currently, the two dependencies that are offered are [@testlio/lambda-tools](https://github.com/testlio/lambda-tools) and [@testlio/lambda-foundation](https://github.com/testlio/lambda-foundation). If the first is installed, the service also configures an appropriate `start` script for the package (if one doesn't already exist).
+The generator does assume that the npm package has already been set up via `npm init`. The generator will also, optionally, install dependencies to the current node package. Currently, the two dependencies that are offered are [lambda-tools](https://github.com/testlio/lambda-tools) and [lambda-foundation](https://github.com/testlio/lambda-foundation). If the first is installed, the service also configures an appropriate `start` script for the package (if one doesn't already exist).
 
 ### Lambda function
 
@@ -68,7 +68,7 @@ Currently, the generator does not specifically support responses or their templa
 Adding a new response (status code) to an endpoint in API Gateway can be done with the `endpoint-response` subgenerator:
 
 ```bash
-yo @testlio/lambda-tools:endpoint-response
+yo lambda-tools:endpoint-response
 ```
 
 This generator offers adding a new response (such as a 404 or a 400) to an existing endpoint/HTTP method combination. The generator also covers response mapping templates and parameters (headers). The end result of the generator is a modified `api.json` file, with necessary lines added to support the new response type. These responses can be used by returning an error from the Lambda function, as currently API Gateway does not support multiple response types for successful responses.
@@ -78,7 +78,7 @@ This generator offers adding a new response (such as a 404 or a 400) to an exist
 Once a path has been fully implemented with all of its HTTP methods/endpoints, you can add CORS support to it with the `endpoint-cors` generator.
 
 ```bash
-yo @testlio/lambda-tools:endpoint-cors
+yo lambda-tools:endpoint-cors
 ```
 
 The generator will make sure the path has the appropriate `OPTIONS` method defined as well as making sure all other methods/responses include suitable CORS headers.
@@ -101,7 +101,7 @@ yo lambda-tools:dynamo-index
 DynamoDB tables expose a stream, which allows triggering Lambda functions when a change is conducted on the table (such as adding or removing a row). Enabling the stream and adding a Lambda function to handle the changes can be done via the `dynamo-stream` generator.
 
 ```bash
-yo @testlio/lambda-tools:dynamo-stream
+yo lambda-tools:dynamo-stream
 ```
 
 The generator will add an appropriate event source mapping to `cf.json`, as well as make sure that `lambda_policies.json` has appropriate policy set for the table.

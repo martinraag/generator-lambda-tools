@@ -6,7 +6,7 @@ const path = require('path');
 const exists = require('is-there');
 const fs = require('fs-extra');
 
-describe('@testlio/lambda-tools:app', function() {
+describe('lambda-tools:app', function() {
     before(function(done) {
         this.prompts = {
             serviceName: 'name',

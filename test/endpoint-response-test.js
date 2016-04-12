@@ -48,7 +48,7 @@ function validateUpdatedPathEntry(actualPath, methods, expectedResponses, expect
 //
 //  Tests
 //
-describe('@testlio/lambda-tools:endpoint-response', function() {
+describe('lambda-tools:endpoint-response', function() {
     describe('With default options', function() {
         before(function(done) {
             this.prompts = {
