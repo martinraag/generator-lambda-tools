@@ -1,13 +1,16 @@
 {
   "name": "generator-lambda-tools",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Yeoman generators for lambda-tools",
   "files": [
     "generators/app",
     "generators/lambda",
     "generators/endpoint",
+    "generators/endpoint-response",
+    "generators/endpoint-cors",
     "generators/dynamo-table",
     "generators/dynamo-index",
+    "generators/dynamo-stream",
     "lib"
   ],
   "scripts": {
