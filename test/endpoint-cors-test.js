@@ -57,7 +57,7 @@ function validateUpdatedPathEntry(actualPath, methods, expectedResponses, expect
 //
 //  Tests
 //
-describe('@testlio/lambda-tools:endpoint-cors', function() {
+describe('lambda-tools:endpoint-cors', function() {
     describe('With all methods and headers', function() {
         before(function(done) {
             this.prompts = {

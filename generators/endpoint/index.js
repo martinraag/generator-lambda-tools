@@ -221,7 +221,7 @@ module.exports = generators.Base.extend({
 
     writing: function() {
         // Create the lambda function itself
-        this.composeWith('@testlio/lambda-tools:lambda', {
+        this.composeWith('lambda-tools:lambda', {
             options: {
                 event: true,
                 name: this.lambda.name

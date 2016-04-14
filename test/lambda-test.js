@@ -5,7 +5,7 @@ const assert = require('yeoman-assert');
 const path = require('path');
 const fs = require('fs');
 
-describe('@testlio/lambda-tools:lambda', function() {
+describe('lambda-tools:lambda', function() {
     describe('Without event.json', function() {
         before(function(done) {
             this.prompts = {

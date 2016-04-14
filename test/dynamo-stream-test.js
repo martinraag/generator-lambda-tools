@@ -31,7 +31,7 @@ function validateLambdaPermissions(tableResourceName) {
     assert.deepStrictEqual(_.find(contents, comparison), comparison);
 }
 
-describe('@testlio/lambda-tools:dynamo-stream', function() {
+describe('lambda-tools:dynamo-stream', function() {
     describe('Using a simple/default setup', function() {
         before(function(done) {
             this.prompts = {

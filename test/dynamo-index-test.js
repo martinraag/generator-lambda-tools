@@ -31,7 +31,7 @@ function validateTablePolicies(tableResourceName) {
     assert.deepStrictEqual(_.find(policies, comparison), comparison);
 }
 
-describe('@testlio/lambda-tools:dynamo-index', function() {
+describe('lambda-tools:dynamo-index', function() {
     describe('Global index with a HASH key', function() {
         before(function(done) {
             this.prompts = {
