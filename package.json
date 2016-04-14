@@ -2,6 +2,10 @@
   "name": "generator-lambda-tools",
   "version": "1.2.2",
   "description": "Yeoman generators for lambda-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Testlio/generator-lambda-tools.git"
+  },
   "files": [
     "generators/app",
     "generators/lambda",
