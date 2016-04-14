@@ -45,18 +45,6 @@ module.exports = generators.Base.extend({
                     }
                 },
                 {
-                    type: 'input',
-                    name: 'name',
-                    message: 'Lambda function name',
-                    validate: function(value) {
-                        try {
-                            return helpers.isValidLambdaName(value);
-                        } catch (err) {
-                            return err.message;
-                        }
-                    }
-                },
-                {
                     type: 'list',
                     name: 'method',
                     message: 'HTTP Method',
@@ -70,6 +58,24 @@ module.exports = generators.Base.extend({
                         { name: 'HEAD', value: 'head' },
                         { name: 'PATCH', value: 'patch' }
                     ]
+                },
+                {
+                    type: 'input',
+                    name: 'name',
+                    message: 'Lambda function name',
+                    default: function(answers) {
+                        // Base name on path and HTTP method
+                        return _.compact(answers.path.split('/').filter(function(value) {
+                            return value.length === 0 || !_.startsWith(value, '{');
+                        })).join('-') + '-' + answers.method;
+                    },
+                    validate: function(value) {
+                        try {
+                            return helpers.isValidLambdaName(value);
+                        } catch (err) {
+                            return err.message;
+                        }
+                    }
                 }
             ];
 
