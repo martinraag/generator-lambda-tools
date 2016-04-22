@@ -15,6 +15,7 @@
             }
         }
     },
+    "parameters": <%- JSON.stringify(parameters) %>,
     "x-amazon-apigateway-auth": {
         "type": "none"
     },
