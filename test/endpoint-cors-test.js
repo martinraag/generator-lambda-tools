@@ -79,7 +79,8 @@ describe('lambda-tools:endpoint-cors', function() {
                     'method.response.header.Access-Control-Allow-Origin': '\'*\'',
                     'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
                     'method.response.header.Access-Control-Allow-Methods': '\'PUT,GET,OPTIONS\''
-                }
+                },
+                parameters: []
             });
         });
 
@@ -128,6 +129,79 @@ describe('lambda-tools:endpoint-cors', function() {
         });
     });
 
+    describe('With parameterised path and all headers', function() {
+        before(function(done) {
+            this.prompts = {
+                path: '/{foo}',
+                allowMethods: ['POST'],
+                allowHeaders: ['Content-Type', 'X-Amz-Date', 'X-Api-Key', 'Authorization', 'X-Page']
+            };
+
+            runGenerator(this.prompts, done);
+        });
+
+        it('adds options entry to api.json', function() {
+            // Should be relatively redundant, but nevertheless
+            assert.file('api.json');
+
+            // Actual validation of the entry in api.json
+            validateOptionsEntry('/{foo}', {
+                responseParameters: {
+                    'method.response.header.Access-Control-Allow-Origin': '\'*\'',
+                    'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
+                    'method.response.header.Access-Control-Allow-Methods': '\'POST,OPTIONS\''
+                },
+                parameters: [{
+                    '$ref': '#/parameters/FooPath'
+                }]
+            });
+        });
+
+        it('updates existing method entries in api.json', function() {
+            // Should be relatively redundant, but nevertheless
+            assert.file('api.json');
+
+            const expectedResponses = {
+                '200': {
+                    description: 'Default response',
+                    schema: {
+                        type: 'object',
+                        properties: {},
+                        additionalProperties: true
+                    },
+                    headers: {
+                        'Access-Control-Allow-Headers': {
+                            type: 'string'
+                        },
+                        'Access-Control-Allow-Methods': {
+                            type: 'string'
+                        },
+                        'Access-Control-Allow-Origin': {
+                            type: 'string'
+                        }
+                    }
+                }
+            };
+
+            const expectedAmazonResponses = {
+                default: {
+                    statusCode: '200',
+                    responseTemplates: {
+                        'application/json': ''
+                    },
+                    responseParameters: {
+                        'method.response.header.Access-Control-Allow-Origin': '\'*\'',
+                        'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
+                        'method.response.header.Access-Control-Allow-Methods': '\'PUT,OPTIONS\''
+                    }
+                }
+            };
+
+            validateUpdatedPathEntry('/', this.prompts.allowMethods,
+                expectedResponses, expectedAmazonResponses);
+        });
+    });
+
     describe('With some methods and all headers', function() {
         before(function(done) {
             this.prompts = {
@@ -149,7 +223,8 @@ describe('lambda-tools:endpoint-cors', function() {
                     'method.response.header.Access-Control-Allow-Origin': '\'*\'',
                     'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,X-Amz-Date,X-Api-Key,Authorization,X-Page\'',
                     'method.response.header.Access-Control-Allow-Methods': '\'PUT,OPTIONS\''
-                }
+                },
+                parameters: []
             });
         });
 
@@ -219,7 +294,8 @@ describe('lambda-tools:endpoint-cors', function() {
                     'method.response.header.Access-Control-Allow-Origin': '\'*\'',
                     'method.response.header.Access-Control-Allow-Headers': '\'Content-Type,Authorization\'',
                     'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
-                }
+                },
+                parameters: []
             });
         });
 
@@ -290,7 +366,8 @@ describe('lambda-tools:endpoint-cors', function() {
                     'method.response.header.Access-Control-Allow-Origin': '\'http://test.com\'',
                     'method.response.header.Access-Control-Allow-Headers': '\'Authorization\'',
                     'method.response.header.Access-Control-Allow-Methods': '\'GET,OPTIONS\''
-                }
+                },
+                parameters: []
             });
         });
 

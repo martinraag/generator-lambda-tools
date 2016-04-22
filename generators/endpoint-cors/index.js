@@ -5,6 +5,7 @@ const inquirer = require('inquirer');
 const ejs = require('ejs');
 const fs = require('fs');
 const _ = require('lodash');
+const helpers = require('../../lib/helper');
 
 /**
  *  Generator for enabling CORS on an existing endpoint, modifies
@@ -171,8 +172,19 @@ module.exports = generators.Base.extend({
         };
 
         // Create the OPTIONS method
+        const pathParameters = helpers.extractURLParameters(this.path);
+        const parameters = pathParameters.map(function(param) {
+            let key = _.camelCase(param) + 'Path';
+            key = key.charAt(0).toUpperCase() + key.substring(1);
+
+            return {
+                '$ref': '#/parameters/' + key
+            };
+        });
+
         const template = fs.readFileSync(this.templatePath('api.json'), 'utf8');
         const rendered = ejs.render(template, {
+            parameters: parameters,
             responseParameters: responseParameters
         });
         this.endpoint['options'] = JSON.parse(rendered);
