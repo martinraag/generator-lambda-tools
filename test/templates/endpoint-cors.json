@@ -73,9 +73,7 @@
                         }
                     }
                 },
-                "parameters": {
-
-                },
+                "parameters": [],
                 "x-amazon-apigateway-auth": {
                     "type": "none"
                 },
@@ -101,7 +99,7 @@
                 }
             }
         },
-        "/foo": {
+        "/{foo}": {
             "post": {
                 "responses": {
                     "200": {
@@ -113,9 +111,11 @@
                         }
                     }
                 },
-                "parameters": {
-
-                },
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/FooPath"
+                    }
+                ],
                 "x-amazon-apigateway-auth": {
                     "type": "none"
                 },
@@ -143,6 +143,14 @@
         }
     },
     "responses": {},
-    "parameters": {},
+    "parameters": {
+        "FooPath": {
+            "name": "foo",
+            "in": "path",
+            "description": "Foo argument",
+            "required": true,
+            "type": "string"
+        }
+    },
     "definitions": {}
 }
