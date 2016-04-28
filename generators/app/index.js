@@ -102,6 +102,37 @@ module.exports = generators.Base.extend({
             }.bind(this));
         },
 
+        runtime: function() {
+            const runtimes = [
+                {
+                    name: 'Node.js 4.3',
+                    value: 'nodejs4.3'
+                },
+                {
+                    name: 'Node.js 0.10 (legacy)',
+                    value: 'nodejs'
+                }
+            ];
+
+            const prompts = [
+                {
+                    type: 'list',
+                    name: 'runtime',
+                    choices: runtimes,
+                    default: 'nodejs4.3'
+                }
+            ];
+
+            const done = this.async();
+            this.prompt(prompts, function(answers) {
+                this.lambda = {
+                    runtime: answers.runtime
+                };
+
+                done();
+            }.bind(this));
+        },
+
         dependencies: function() {
             // Ask about installing dependencies
             const dependencies = [
@@ -170,6 +201,7 @@ module.exports = generators.Base.extend({
 
         const template = {
             service: this.service,
+            lambda: this.lambda,
             author: this.author
         };
 
