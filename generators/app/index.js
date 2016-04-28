@@ -118,6 +118,7 @@ module.exports = generators.Base.extend({
                 {
                     type: 'list',
                     name: 'runtime',
+                    message: 'Default Lambda runtime',
                     choices: runtimes,
                     default: 'nodejs4.3'
                 }
