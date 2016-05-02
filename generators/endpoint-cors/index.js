@@ -154,7 +154,7 @@ module.exports = generators.Base.extend({
 
         // Only add OPTIONS if it isn't already there
         const hasOptionsMethod = this.cors.methods.indexOf('OPTIONS') !== -1;
-        const allMethods = hasOptionsMethod ? this.cors.methods : this.cors.methods.concat.concat('OPTIONS');
+        const allMethods = hasOptionsMethod ? this.cors.methods : this.cors.methods.concat('OPTIONS');
 
         // Create the response parameters
         const responseParameters = {
