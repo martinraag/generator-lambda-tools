@@ -152,10 +152,14 @@ module.exports = generators.Base.extend({
         // API we'll be modifying
         const existingAPI = this.fs.readJSON(this.destinationPath('api.json'));
 
+        // Only add OPTIONS if it isn't already there
+        const hasOptionsMethod = this.cors.methods.indexOf('OPTIONS') !== -1;
+        const allMethods = hasOptionsMethod ? this.cors.methods : this.cors.methods.concat.concat('OPTIONS');
+
         // Create the response parameters
         const responseParameters = {
             'method.response.header.Access-Control-Allow-Headers': `'${this.cors.headers.join(',')}'`,
-            'method.response.header.Access-Control-Allow-Methods': `'${this.cors.methods.concat('OPTIONS').join(',')}'`,
+            'method.response.header.Access-Control-Allow-Methods': `'${allMethods.join(',')}'`,
             'method.response.header.Access-Control-Allow-Origin': `'${this.cors.origins.join(',')}'`
         };
 
