@@ -85,7 +85,7 @@ module.exports = generators.Base.extend({
                         // that the number is a possible status code, but that seems
                         // overkill (and as the list of codes may change, it would not
                         // be as flexible)
-                        if (_.isNan(int)) {
+                        if (_.isNaN(int)) {
                             return 'Status code should be numeric';
                         }
 
