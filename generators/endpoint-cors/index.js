@@ -85,11 +85,12 @@ module.exports = generators.Base.extend({
 
                             const params = this.endpoint[method]['x-amazon-apigateway-integration'].requestParameters;
 
+                            const prefix = 'method.request.header.';
                             const additionalHeaders = [];
                             _.forOwn(params, function(value) {
-                                if (_.startsWith(value, 'method.request.header.')) {
+                                if (_.startsWith(value, prefix)) {
                                     additionalHeaders.push({
-                                        name: _.trimStart(value, 'method.request.header.'),
+                                        name: _.capitalize(value.slice(prefix.length)),
                                         checked: true
                                     });
                                 }

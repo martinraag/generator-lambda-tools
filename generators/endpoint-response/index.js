@@ -231,7 +231,12 @@ module.exports = generators.Base.extend({
                             return answers.integrationSource === 'header';
                         },
                         default: function(answers) {
-                            return _.trimStart(answers.responseHeader, 'method.response.header.');
+                            const prefix = 'method.response.header.';
+                            if (_.startsWith(answers.responseHeader, prefix)) {
+                                return answers.responseHeader.slice(prefix.length);
+                            }
+
+                            return answers.responseHeader;
                         },
                         filter: function(value) {
                             if (!_.startsWith(value, 'integration.request.header.')) {
@@ -249,8 +254,12 @@ module.exports = generators.Base.extend({
                             return answers.integrationSource === 'body';
                         },
                         default: function(answers) {
-                            const trimmed = _.trimStart(answers.responseHeader, 'method.response.header.');
-                            return _.camelCase(trimmed);
+                            const prefix = 'method.response.header.';
+                            if (_.startsWith(answers.responseHeader, prefix)) {
+                                return _.camelCase(answers.responseHeader.slice(prefix.length));
+                            }
+
+                            return _.camelCase(answers.responseHeader);
                         },
                         filter: function(value) {
                             if (!_.startsWith(value, 'integration.request.body.')) {
@@ -271,7 +280,11 @@ module.exports = generators.Base.extend({
                 this.prompt(prompts, function(answers) {
                     this.response.parameters[answers.responseHeader] = answers.integrationKeyPath;
 
-                    this.response.headers[_.trimStart(answers.responseHeader, 'method.response.header.')] = {
+                    const prefix = 'method.response.header.';
+                    const header = answers.responseHeader;
+                    const key = _.startsWith(header, prefix) ? header.slice(prefix.length) : header;
+
+                    this.response.headers[key] = {
                         type: 'string'
                     };
 
