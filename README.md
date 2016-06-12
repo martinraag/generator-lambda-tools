@@ -2,7 +2,7 @@
 
 [![Circle CI](https://circleci.com/gh/Testlio/generator-lambda-tools.svg?style=svg&circle-token=63037fa0129cb7bbae3f9601aa6baaa2bebf582a)](https://circleci.com/gh/Testlio/generator-lambda-tools)
 
-This repository contains [Yeoman](https://yeoman.io) generators for [lambda-tools](https://github.com/testlio/lambda-tools) package. The provided generators help set up a new service, as well as add functionality to an existing service.
+This repository contains [Yeoman](http://yeoman.io) generators for [lambda-tools](https://github.com/testlio/lambda-tools) package. The provided generators help set up a new service, as well as add functionality to an existing service.
 
 ## Installation
 
