@@ -1,0 +1,69 @@
+{
+    "<%= resource.logicalID %>": {
+        "Type": "AWS::Events::Rule",
+        "Properties": {
+            <% if (resource.description) { %>"Description": "<%= resource.description %>",<% } %>
+            <% if (resource.name) { -%>
+            "Name": {
+                "Fn::Join": [
+                    "-",
+                    [
+                        {
+                            "Ref": "aaProjectName"
+                        },
+                        {
+                            "Ref": "aaStage"
+                        },
+                        "<%= resource.name %>"
+                    ]
+                ]
+            },
+            <% } -%>
+            "ScheduleExpression": "<%= resource.scheduleExpression %>",
+            "State": "<%= resource.state %>",
+            "Targets": [
+                {
+                    "Id": "<%= target.id %>",
+                    "Arn": {
+                        "Fn::GetAtt": [
+                            "<%= lambda.logicalID %>",
+                            "Arn"
+                        ]
+                    }<% if (target.input || target.inputPath) { %>,<% } %>
+                    <% if (target.input) { -%>
+                    "Input": <%- JSON.stringify(target.input) %>
+                    <% if (target.inputPath) { %>,<% } } -%>
+                    <% if (target.inputPath) { -%>
+                    "InputPath": "<%= target.inputPath %>"
+                    <% } -%>
+                }
+            ]
+        }
+    },
+    "<%= permission.logicalID %>": {
+        "Type": "AWS::Lambda::Permission",
+        "DependsOn": [
+            "<%= lambda.logicalID %>",
+            "<%= resource.logicalID %>"
+        ],
+        "Properties": {
+            "Action": "lambda:invokeFunction",
+            "FunctionName": {
+                "Fn::GetAtt": [
+                    "<%= lambda.logicalID %>",
+                    "Arn"
+                ]
+            },
+            "Principal": "events.amazonaws.com",
+            "SourceAccount": {
+                "Ref": "AWS::AccountId"
+            },
+            "SourceArn": {
+                "Fn::GetAtt": [
+                    "<%= resource.logicalID %>",
+                    "Arn"
+                ]
+            }
+        }
+    }
+}

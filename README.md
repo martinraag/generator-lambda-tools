@@ -24,6 +24,7 @@ As with any Yeoman generator, the instructions given above are how to start the 
 
 * [lambda-tools](#serviceapp)
 * [lambda-tools:lambda](#lambda-function)
+* [lambda-tools:periodic-lambda](#periodic-lambda-function)
 * [lambda-tools:endpoint](#endpoint)
 * [lambda-tools:endpoint-response](#endpoint-response)
 * [lambda-tools:endpoint-cors](#cors)
@@ -50,6 +51,16 @@ yo lambda-tools:lambda
 ```
 
 The generator creates a Lambda function in `<lambda name>/index.js` under the `lambdas` directory, along with `<lambda name>/event.json`, which can be used by lambda-tools via the `lambda execute` command in the newly created subdirectory.
+
+### Periodic Lambda function
+
+Often there is a demand for a Lambda function that would run on a schedule, whether absolute or at a preset rate. Such Lambda functions can be created by calling the `periodic-lambda` subgenerator:
+
+```bash
+yo lambda-tools:periodic-lambda
+```
+
+The generator creates a Lambda function in `<lambda name>/index.js` under the `lambdas` directory, along with an optional event file as well as all of the CloudFormation resources in `cf.json` that are required for periodic execution.
 
 ### Endpoint
 
