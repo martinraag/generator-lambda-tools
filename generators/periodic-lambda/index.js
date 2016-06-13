@@ -179,7 +179,7 @@ module.exports = generators.Base.extend({
                 logicalID: functionLogicalID
             },
             target: {
-                input: this.target.input ? JSON.stringify(this.target.input) : this.target.input,
+                input: this.target.input,
                 inputPath: this.target.inputPath,
                 id: nextID
             },
