@@ -82,7 +82,11 @@ module.exports = generators.Base.extend({
 
                 return '';
             },
-            validate: function(value) {
+            validate: function(value, answers) {
+                if (value === _.upperFirst(_.camelCase(answers.name))) {
+                    return `Rule should not have the same name as the generated Lambda function (${answers.name} -> ${_.upperFirst(_.camelCase(answers.name))})`;
+                }
+
                 try {
                     return helpers.isValidCloudFormationLogicalID(value);
                 } catch (err) {
