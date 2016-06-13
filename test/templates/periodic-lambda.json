@@ -1,0 +1,83 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "<%= service.description %>",
+    "Parameters": {
+        "aaProjectName": {
+            "Type": "String",
+            "Default": "<%= service.name %>",
+            "AllowedValues": [
+                "<%= service.name %>"
+            ]
+        },
+        "aaStage": {
+            "Type": "String",
+            "Default": "dev"
+        },
+        "aaDefaultDynamoRWThroughput": {
+            "Type": "String",
+            "Default": "1"
+        }
+    },
+    "Resources": {
+        "PeriodicEvent": {
+            "Type": "AWS::Events::Rule",
+            "Properties": {
+                "Description": "Periodic event to test out the generator",
+                "Name": {
+                    "Fn::Join": [
+                        "-",
+                        [
+                            {
+                                "Ref": "aaProjectName"
+                            },
+                            {
+                                "Ref": "aaStage"
+                            },
+                            "periodic-event"
+                        ]
+                    ]
+                },
+                "ScheduleExpression": "cron(* 0/15 * * * *)",
+                "State": "ENABLED",
+                "Targets": [
+                    {
+                        "Id": "1",
+                        "Arn": {
+                            "Fn::GetAtt": [
+                                "PeriodicEventHandler",
+                                "Arn"
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "PeriodicEventPeriodicEventHandlerPermission": {
+            "Type": "AWS::Lambda::Permission",
+            "DependsOn": [
+                "PeriodicEventHandler",
+                "PeriodicEvent"
+            ],
+            "Properties": {
+                "Action": "lambda:invokeFunction",
+                "FunctionName": {
+                    "Fn::GetAtt": [
+                        "PeriodicEventHandler",
+                        "Arn"
+                    ]
+                },
+                "Principal": "events.amazonaws.com",
+                "SourceAccount": {
+                    "Ref": "AWS::AccountId"
+                },
+                "SourceArn": {
+                    "Fn::GetAtt": [
+                        "PeriodicEvent",
+                        "Arn"
+                    ]
+                }
+            }
+        }
+    },
+    "Outputs": {}
+}
