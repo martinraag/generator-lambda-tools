@@ -1,7 +1,6 @@
 'use strict';
 
 const generators = require('yeoman-generator');
-const path = require('path');
 const helpers = require('../../lib/helper');
 const _ = require('lodash');
 const ejs = require('ejs');
@@ -81,7 +80,7 @@ module.exports = generators.Base.extend({
                     return `${_.upperFirst(_.camelCase(answers.ruleName))}Event`;
                 }
 
-                return ''
+                return '';
             },
             validate: function(value) {
                 try {

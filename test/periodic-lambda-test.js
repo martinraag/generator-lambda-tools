@@ -63,7 +63,7 @@ describe('lambda-tools:periodic-lambda', function() {
                     id: '1'
                 },
                 permission: {
-                    logicalID: `PeriodicEventPeriodicEventHandlerPermission`
+                    logicalID: 'PeriodicEventPeriodicEventHandlerPermission'
                 }
             };
 
@@ -118,7 +118,7 @@ describe('lambda-tools:periodic-lambda', function() {
                     id: '1'
                 },
                 permission: {
-                    logicalID: `PeriodicEventPeriodicEventHandlerPermission`
+                    logicalID: 'PeriodicEventPeriodicEventHandlerPermission'
                 }
             };
 
